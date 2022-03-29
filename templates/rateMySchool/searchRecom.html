@@ -1,0 +1,18 @@
+<!--contains js code for search recommendation and read more/less on the collegeRatings section-->
+<script>
+    $(function () {
+        var availableTags = [
+        {% for uni in universities %}
+            "{{uni.name}}",
+        {% endfor %}
+  ];
+    $("#uni_search").autocomplete({
+        source: availableTags
+    });
+  } );
+
+$(".show-hide-btn").click(function() {
+        $("#half").toggle();
+        $("#full").toggle();
+      })
+  </script>

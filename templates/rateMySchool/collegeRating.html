@@ -1,0 +1,126 @@
+{%extends 'partials/base.html'%}
+
+{%block header_container%}
+    <h2 style="color: #333B84; text-align: center;">College rating</h2>
+{%endblock%}
+
+{%block search%}
+
+<div>
+    <form class="d-flex" method="get">
+      {% csrf_token %}
+      <input action="{% url 'collegeRating' %}"  name='collegeQuery' class="form-control me-2" id="uni_search" type="search" placeholder="Search the university here" aria-label="Search">
+      <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
+</div>
+  
+{%endblock%}
+
+
+{%block ratedBody%}
+<div class="container">
+  <div class="row pt-3">
+    <div class="col-md-6">
+      <h3 style="color: #333B84; font-weight: bold;">
+      
+      {{queryUNI}}
+      
+      </h3>
+      {%if wiki_summary|wordcount > 60 %}
+      <div class="half-content" id="half" style="text-align:justify;">{{wiki_summary|safe|linebreaks|truncatewords:60}}
+      <a id="btn" href="javascript:void();" class="show-hide-btn">Read more</a>
+      </div>
+      <div class="half-content" id="full" style="text-align:justify;display: none;">{{wiki_summary|safe|linebreaks}}
+      <a id="btn" href="javascript:void();" class="show-hide-btn">Read less</a>
+      </div> 
+      {%else%}
+      <div class="half-content" id="half" style="text-align:justify;">{{wiki_summary|safe|linebreaks}} </div>
+      {%endif%}
+    </div>
+    
+    <div class="col-md-6">
+      {%if graph_data%}
+        <h4>Overall ratings ({{average_rating}})</h4>
+        <canvas id="myCharts" width="200" height="150"></canvas>
+        <div class="selectBox">
+          <select id="coffeeSales">
+            <option value="bar">Bar</option>
+            <option value="pie">Pie</option>
+            <option value="doughnut">Doghnut</option>
+            <option value='radar'>Radar</option>
+          </select>
+          {%include 'rateMySchool/chartjs.html'%} <!--Javascript Code for the chart-->
+        </div> 
+      {%elif queryUNI != ''%}
+        <p>Sorry :( This university doesn't have any ratings yet. Please log-in /register to rate.</p>
+      {%endif%}
+     
+    </div>
+  </div>
+</div>
+{%endblock%}
+
+
+<!--Individual duplicate ratings-->
+{%block indivRating%}
+  
+    <!--individual rating 2-->
+
+    {%for post in posts%}
+    <div class="border p-3 mt-3 mb-2 shadow" style="background-color:#9ea4e0;">
+              
+      <div class="row pt-2 mb-2">
+        <div class="col-md-6">
+          <div style="color: white;display:inline;font-weight:bold;">{{post.firstName}} {{post.lastName}} 
+            {%if post.verified%}
+            <i class="fa-solid fa-circle-check"></i>
+            {%endif%}
+           </div> <b style="color: #E5E4E2;">(badge)</b>  <br> <small>{{post.date_created}}</small> <!--date needs to be small in size-->
+        </div>
+        
+        <div class="col-md-6">
+          <!--if else for number of stars goes here-->
+          <b style="color: #333B84;">Rating: </b> 
+          
+          <!--star ratings-->
+          {%if post.rate_stars == 1%}
+          <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
+          
+          {%elif post.rate_stars == 2%}
+          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
+          {%elif post.rate_stars == 3%}
+          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
+          {%elif post.rate_stars == 4%}
+          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> 
+          {%elif post.rate_stars == 5%}
+          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> 
+          
+          {%endif%}
+          
+          {{post.rate_stars}}/5
+
+        </div>
+      </div>
+
+      {{post.postcontent}}
+      <!--bottom of individual rating. Consists upvote and downvote-->
+      <div class="row pt-3">
+        <div class="col-md-4">
+          
+        </div>
+        <div class="col-md-4">
+          <!--one is button and the other is int-->
+        </div>
+        <div class="col-md-4">
+          <!--one is button and the other is int-->
+          <button class="btn btn-outline-primary" style="font-size: 12px;"  type="submit">{{post.upvoteCount}} upvote</button>
+          <button class="btn btn-outline-danger" style="font-size: 12px;" type="submit">{{post.downvoteCount}} downvote</button>
+             
+        </div>
+      </div>
+
+    </div>
+    {%endfor%}
+    
+{%endblock%}
+</div>

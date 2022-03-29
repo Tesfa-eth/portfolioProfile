@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6b7e755c33.js" crossorigin="anonymous"></script> <!--font awesome-->
+    <title>Rate My School</title>
+
+    <style>
+
+      .button {
+        background-color: white;
+        color: black;
+        border-radius: 5px;
+        border: 2px solid #4CAF50; /* Green */
+      }
+
+      .button:hover {
+        background-color: #4CAF50; /* Green */
+        color: white;
+      }
+
+      .half-content{
+        font-size: 14px /*smaller content size*/
+      }
+      
+      
+      </style>
+
+      <!--jQuery for search recommendation-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+      <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet"
+          type="text/css" />
+        
+      <!--jQuery end-->
+  </head>
+  <body>
+    {%include 'partials/nav.html'%}
+  
+    
+    <!-- Header image and text -->
+
+    <!--First page 4,4,4 division-->
+    <div class="container-lg" style="position: absolute; left: 50%;top: 50%;transform: translate(-50%, -50%);">
+
+      <div class="row mt-5 pt-3">
+        <div class="col-md-4 mb-3">
+          {%block collegeRatings%}
+
+          {%endblock%}
+        </div>
+        <div class="col-md-4 mb-3">
+          
+
+          {%block professorFeedbacks%}
+          {%endblock%}
+        </div>
+        <div class="col-md-4 mb-3">
+          {%block fieldOfStudy%}
+
+          {%endblock%}
+        </div>
+      </div>
+  </div>
+
+
+  <!--College ratings page-->
+  <div class="container">
+    <div class="row mt-3 pt-3">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-8">
+        {%block header_container%}
+        {%endblock%}
+        {%block search%}
+        {%endblock%}
+        <!--Nested container for rating description-->
+        {%block ratedBody%}{%endblock%}
+        
+
+        <!--Individual ratings-->
+        {%block indivRating%}
+        {%endblock%}
+        
+      <div class="col-md-2">
+        {%block fieldOfStudy1%}
+
+        {%endblock%}
+      </div>
+    </div>
+</div>
+
+      <!--Test block content-->
+      {%block testrating%}
+      {%endblock%}
+
+  
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    
+    {%include 'rateMySchool/searchRecom.html'%} <!--a javascript code for search recommendation and readmore on collegeRatings section-->
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
