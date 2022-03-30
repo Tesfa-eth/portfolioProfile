@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django.http import HttpResponse # temp
+from .models import Universities
 
 # Create your views here.
 def index(request):
@@ -10,4 +11,8 @@ def index(request):
 
 def college_rating(request):
     """renders college rating page"""
-    return render(request, 'rateMySchool/collegeRating.html')
+    univeristies = Universities.objects.all()
+    context = {
+        'universities' : univeristies,
+    }
+    return render(request, 'rateMySchool/collegeRating.html', context)
