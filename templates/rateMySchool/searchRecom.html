@@ -5,11 +5,11 @@
         {% for uni in universities %}
             "{{uni.name}}",
         {% endfor %}
-  ];
-    $("#uni_search").autocomplete({
-        source: availableTags
-    });
-  } );
+        ];
+          $("#uni_search").autocomplete({
+              source: availableTags
+          });
+      } );
 
 $(".show-hide-btn").click(function() {
         $("#half").toggle();
