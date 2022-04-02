@@ -39,7 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rateMySchoolApp' # may be wrong
+    'rateMySchoolApp',
+
+    # django all auth
+    "django.contrib.sites",  # new
+    # 3rd party
+    "allauth", # new
+    "allauth.account", # new
+    "allauth.socialaccount", # new
+    # social providers
+    "allauth.socialaccount.providers.github", # new
+    "allauth.socialaccount.providers.twitter", # new
 ]
 
 MIDDLEWARE = [
@@ -136,3 +146,14 @@ import django_on_heroku
 django_on_heroku.settings(locals())
 
 CSRF_TRUSTED_ORIGINS=['https://*.herokuapp.com/']
+
+
+# django all auth
+AUTHENTICATION_BACKENDS = (
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none" # turns off verification emails
+LOGIN_REDIRECT_URL = "home" #  redirects the user to the homepage after log in
+ACCOUNT_LOGOUT_ON_GET = True # skips the confirm logout page.

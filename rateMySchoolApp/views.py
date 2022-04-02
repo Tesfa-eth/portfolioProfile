@@ -18,3 +18,6 @@ def college_rating(request):
         'universities' : univeristies,
     }
     return render(request, 'rateMySchool/collegeRating.html', context)
+
+def home(request):
+    return render(request, 'rateMySchool/home.html')
