@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     "allauth.account", # new
     "allauth.socialaccount", # new
     # social providers
+    # https://github.com/settings/applications
     "allauth.socialaccount.providers.github", # new
     "allauth.socialaccount.providers.twitter", # new
+    # https://console.cloud.google.com/getting-started
     "allauth.socialaccount.providers.google" # new
 ]
 
