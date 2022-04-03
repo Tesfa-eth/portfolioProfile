@@ -155,7 +155,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend' # new
 )
 
-SITE_ID = 1
+SITE_ID = 2
 ACCOUNT_EMAIL_VERIFICATION = "none" # turns off verification emails
 LOGIN_REDIRECT_URL = "home" #  redirects the user to the homepage after log in
 ACCOUNT_LOGOUT_ON_GET = True # skips the confirm logout page.
