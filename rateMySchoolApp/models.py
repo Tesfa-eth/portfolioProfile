@@ -5,6 +5,7 @@ from django.db import models
 #from pyexpat import model
 from django.utils import timezone
 from sqlalchemy import null # get time zone
+from django.contrib.auth.models import User # default user model
 # Create your models here.
 
 # Create your models here.
@@ -21,6 +22,8 @@ class Universities(models.Model):
     overall_rating = models.IntegerField()
     def __str__(self) -> str:
         return self.name
+
+
 
 """class Post(models.Model):
     postcontent = models.CharField(max_length=200)
