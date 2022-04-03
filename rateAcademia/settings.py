@@ -20,9 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# deployment
 SECRET_KEY = 'django-insecure-txvhcwr!u)&^rfa^a=bjus*(qv@y7@$7jps^j@k91i_-x*-l%s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# deployment
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -37,7 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rateMySchoolApp' # may be wrong
+    'rateMySchoolApp',
+
+    # django all auth
+    "django.contrib.sites",  # new
+    # 3rd party
+    "allauth", # new
+    "allauth.account", # new
+    "allauth.socialaccount", # new
+    # social providers
+    # https://github.com/settings/applications
+    "allauth.socialaccount.providers.github", # new
+    "allauth.socialaccount.providers.twitter", # new
+    # https://console.cloud.google.com/getting-started
+    "allauth.socialaccount.providers.google" # new
 ]
 
 MIDDLEWARE = [
@@ -134,3 +149,37 @@ import django_on_heroku
 django_on_heroku.settings(locals())
 
 CSRF_TRUSTED_ORIGINS=['https://*.herokuapp.com/']
+
+
+# django all auth
+AUTHENTICATION_BACKENDS = (
+    "allauth.account.auth_backends.AuthenticationBackend",
+    'django.contrib.auth.backends.ModelBackend' # new
+)
+
+SITE_ID = 2
+ACCOUNT_EMAIL_VERIFICATION = "none" # turns off verification emails
+LOGIN_REDIRECT_URL = "home" #  redirects the user to the homepage after log in
+ACCOUNT_LOGOUT_ON_GET = True # skips the confirm logout page.
+
+
+# new
+LOGOUT_REDIRECT_URL = 'home'
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online', # offline -  refresh authentication in the background
+        }
+    }
+}
+
+# additional configuration
+# Additional configuration settings for authentication (if needed)
+# SOCIALACCOUNT_QUERY_EMAIL = True
+# ACCOUNT_LOGOUT_ON_GET= True
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_REQUIRED = True
