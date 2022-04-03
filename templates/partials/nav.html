@@ -10,12 +10,16 @@
             <a class="nav-link active" aria-current="page" href="{%url 'ratemySchool-index'%}">Home</a>
           </li>
           {% if user.is_authenticated %}
+          <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'account_logout' %}">Log out ({{ user.username }})</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">{{ user.username }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'account_logout' %}">Log out</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Log in</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Log in</a>
           </li>
           {%endif%}
           <li class="nav-item dropdown">

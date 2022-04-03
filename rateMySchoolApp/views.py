@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Universities
 
 
@@ -18,6 +19,6 @@ def college_rating(request):
         'universities' : univeristies,
     }
     return render(request, 'rateMySchool/collegeRating.html', context)
-
-def home(request):
-    return render(request, 'rateMySchool/home.html')
+#@login_required #, if necessary
+def dashboard(request):
+    return render(request, 'rateMySchool/dashboard.html')
