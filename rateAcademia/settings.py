@@ -152,9 +152,32 @@ CSRF_TRUSTED_ORIGINS=['https://*.herokuapp.com/']
 # django all auth
 AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
+    'django.contrib.auth.backends.ModelBackend' # new
 )
 
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none" # turns off verification emails
 LOGIN_REDIRECT_URL = "home" #  redirects the user to the homepage after log in
 ACCOUNT_LOGOUT_ON_GET = True # skips the confirm logout page.
+
+
+# new
+LOGOUT_REDIRECT_URL = '/home'
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online', # offline -  refresh authentication in the background
+        }
+    }
+}
+
+# additional configuration
+# Additional configuration settings for authentication (if needed)
+# SOCIALACCOUNT_QUERY_EMAIL = True
+# ACCOUNT_LOGOUT_ON_GET= True
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_REQUIRED = True

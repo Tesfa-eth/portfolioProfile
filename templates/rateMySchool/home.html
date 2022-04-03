@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container" style="text-align: center; padding-top: 10%;">
-  <h1>Django Social Login</h1>
+  <h1>Rate Academia</h1>
 
   <br /><br />
 
@@ -19,9 +19,12 @@
     </a>
     <!-- GitHub button ends here -->
 
-    <!--Facebook button starts here-->
-    
-    <!-- Facebook button ends here -->
+    <!-- Google button starts here-->
+    <a href="{% provider_login_url 'google' %}" class="btn btn-primary">
+    <i class="fa fa-google fa-fw"></i>
+      <span>Login With Google</span>
+    </a>
+    <!-- Google button ends here -->
   {% endif %}
 </div>
 
