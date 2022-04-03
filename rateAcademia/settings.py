@@ -162,7 +162,7 @@ ACCOUNT_LOGOUT_ON_GET = True # skips the confirm logout page.
 
 
 # new
-LOGOUT_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = 'home'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
