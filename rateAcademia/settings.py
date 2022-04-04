@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github", # new
     "allauth.socialaccount.providers.twitter", # new
     # https://console.cloud.google.com/getting-started
-    "allauth.socialaccount.providers.google" # new
+    "allauth.socialaccount.providers.google", # new
+    'crispy_forms', # crispy forms
 ]
 
 MIDDLEWARE = [
