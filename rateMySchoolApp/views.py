@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Universities, Post
+from .models import Profile, Universities, Post
 import wikipediaapi
 
 # Create your views here.
@@ -42,6 +42,7 @@ def Average(lst):
     else:
         return 0
 
+
 def college_rating(request):
     """renders college rating page"""
     # Todo: make sure that one user can't rate a university more than once
@@ -54,12 +55,14 @@ def college_rating(request):
     universityRatePosts = ''
     graph_data = []
     univeristies = Universities.objects.all()
+    
     if 'collegeQuery' in request.GET:
         q = request.GET['collegeQuery']
         crude_data = Universities.objects.filter(name__icontains=q)
         if len(crude_data) != 0: # if the search succeeds
             # find posts related to university (formerly called query_post)
             universityPostRatings = Post.objects.filter(ratedBody=crude_data[0])
+            
             # debug
             # print(crude_data[0])
             # print(query_post, len(query_post), "query post")
