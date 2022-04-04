@@ -70,7 +70,8 @@ ROOT_URLCONF = 'rateAcademia.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        # allauth contains customized authentication templates from Django allauth
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'templates/allauth'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -159,12 +160,12 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 2
 ACCOUNT_EMAIL_VERIFICATION = "none" # turns off verification emails
-LOGIN_REDIRECT_URL = "home" #  redirects the user to the homepage after log in
+LOGIN_REDIRECT_URL = "dashboard" #  redirects the user to the homepage after log in
 ACCOUNT_LOGOUT_ON_GET = True # skips the confirm logout page.
 
 
 # new
-LOGOUT_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'dashboard'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [

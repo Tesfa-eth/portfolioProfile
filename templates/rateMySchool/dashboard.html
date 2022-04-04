@@ -1,18 +1,15 @@
-{% extends 'partials/authbase.html' %} {% load socialaccount %}
+{% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
 
 {% block content %}
 
-<div class="container" style="text-align: center; padding-top: 10%;">
-  <h1>Rate Academia</h1>
-
-  <br /><br />
-
+<div class="container" style="text-align: center; padding-top: 3%;">
   {% if user.is_authenticated %}
-    <h3>Welcome {{ user.username }} !!!</h3>
-    <br /><br />
-    <a href="{% url 'account_logout' %}" class="btn btn-danger">Logout</a>
+    <h1>Rate Academia</h1>
+    <p>Welcome {{ user.username }}, who would you like to rate today?</p>
   {% else %}
     <!-- GitHub button starts here -->
+    <h1 style="text-align: center; padding-top: 5%;">Rate Academia</h1>
+    <div class="container" style="text-align: center; padding-top: 3%;">
     <a href="{% provider_login_url 'github' %}" class="btn btn-secondary">
       <i class="fa fa-github fa-fw"></i>
       <span>Login with GitHub</span>
@@ -25,6 +22,7 @@
       <span>Login With Google</span>
     </a>
     <!-- Google button ends here -->
+    </div>
   {% endif %}
 </div>
 
