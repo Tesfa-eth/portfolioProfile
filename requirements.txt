@@ -22,3 +22,4 @@ SQLAlchemy==1.4.32
 sqlparse==0.4.2
 urllib3==1.26.9
 whitenoise==6.0.0
+Wikipedia-API==0.5.4
