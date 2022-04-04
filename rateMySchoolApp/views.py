@@ -51,6 +51,7 @@ def college_rating(request):
     labledRatings = ''
     lable = ''
     average_rating = ''
+    universityRatePosts = ''
     graph_data = []
     univeristies = Universities.objects.all()
     if 'collegeQuery' in request.GET:
@@ -85,6 +86,7 @@ def college_rating(request):
         'wiki_summary': summary,
         'universities' : univeristies,
         'queryUNI' : searchedUniversity,
+        'posts': universityRatePosts, # goes to displaying individual ratings of universities
         # chart data
         'graph_data': labledRatings,
         'lable': lable,

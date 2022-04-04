@@ -1,4 +1,4 @@
-{%extends 'partials/base.html'%}
+{%extends 'partials/base.html'%} {% load socialaccount %}
 
 {%block header_container%}
     <h2 style="color: #333B84; text-align: center;">College rating</h2>
@@ -71,7 +71,7 @@
               
       <div class="row pt-2 mb-2">
         <div class="col-md-6">
-          <div style="color: white;display:inline;font-weight:bold;">{{post.firstName}} {{post.lastName}} 
+          <div style="color: white;display:inline;font-weight:bold;"> {{user.username}}
             {%if post.verified%}
             <i class="fa-solid fa-circle-check"></i>
             {%endif%}
