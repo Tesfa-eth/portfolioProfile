@@ -38,7 +38,8 @@ def matchRatings(data):
 def Average(lst):
     """calculate average rating"""
     if len(lst) > 0:
-        return sum(lst) / len(lst)
+        average = sum(lst) / len(lst)
+        return round(average,2)
     else:
         return 0
 

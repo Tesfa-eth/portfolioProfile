@@ -26,14 +26,6 @@ class Universities(models.Model):
     def __str__(self) -> str:
         return self.name
 
-
-# profile
-# firstName = models.CharField(default=null, max_length=20)
-# lastName = models.CharField(default=null, max_length=20)
-# verified = models.BooleanField(default=False)
-# blocked = models.BooleanField(default=False)
-# reported = models.IntegerField(default=0)
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     firstName = models.CharField(default=null, max_length=20)
