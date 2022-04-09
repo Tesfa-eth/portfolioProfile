@@ -1,11 +1,17 @@
 {% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container" style="text-align: center; padding-top: 3%;">
   {% if user.is_authenticated %}
     <h1>Rate Academia</h1>
     <p>Welcome {{ user.username }}, who would you like to rate today?</p>
+    
+      <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-success btn-block" type="submit" value="Submit">
+      </form>
   {% else %}
     <!-- GitHub button starts here -->
     <h1 style="text-align: center; padding-top: 5%;">Rate Academia</h1>

@@ -52,3 +52,5 @@ class Post(models.Model):
     # foriegn ID connected to the user and rated body
     ratedBody = models.ForeignKey(Universities, on_delete=models.CASCADE)
     raterUser = models.ForeignKey(User, on_delete=models.CASCADE)
+
+   

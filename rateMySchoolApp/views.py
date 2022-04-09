@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
+from django.contrib.auth.models import User # used in forms
+from .forms import UniversityRateForm
 import wikipediaapi
 
 # Create your views here.
@@ -56,14 +58,12 @@ def college_rating(request):
     universityRatePosts = ''
     graph_data = []
     univeristies = Universities.objects.all()
-    
     if 'collegeQuery' in request.GET:
         q = request.GET['collegeQuery']
         crude_data = Universities.objects.filter(name__icontains=q)
         if len(crude_data) != 0: # if the search succeeds
             # find posts related to university (formerly called query_post)
             universityPostRatings = Post.objects.filter(ratedBody=crude_data[0])
-            
             # debug
             # print(crude_data[0])
             # print(query_post, len(query_post), "query post")
@@ -100,4 +100,18 @@ def college_rating(request):
 
 #@login_required #, if necessary
 def dashboard(request):
-    return render(request, 'rateMySchool/dashboard.html')
+
+    if request.method == 'POST':
+        form = UniversityRateForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.raterUser_id = request.user.id # connect it to the user
+            obj.save()    #form.save()
+            return redirect('/dashboard')
+    else:
+        form = UniversityRateForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'rateMySchool/dashboard.html', context)
