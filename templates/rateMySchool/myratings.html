@@ -1,0 +1,11 @@
+{% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
+{% block content %} 
+<div class="container" style="text-align: center; padding-top: 3%;">
+    <h1>{{ user.username }}'s ratings</h1>
+    {%for post in userPosts%}
+    
+    Name: {{post.ratedBody}} Rate: {{post.rate_stars}} Content: {{post.postcontent}} Upvotes: {{post.upvoteCount}} DownVotes: {{post.downvoteCount}}
+    <hr>
+    {%endfor%}
+</div>
+{% endblock content %}
