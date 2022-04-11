@@ -75,8 +75,15 @@
             {%if post.verified%}
             <i class="fa-solid fa-circle-check"></i>
             {%endif%}
-           </div> <b style="color: #E5E4E2;">(badge)</b>  <br> <small>{{post.date_created}}</small> <!--date needs to be small in size-->
-        </div>
+           </div> <b style="color: #E5E4E2;">(badge)</b>
+           {% if user.is_authenticated %}
+              {%if post.raterUser.id == user.id%}
+              <button class="btn btn-outline-primary" style="font-size: 12px;"  type="submit"> Edit Post</button>
+              {%endif%}
+            {%endif%}  
+            <br> 
+            <small>{{post.date_created}}</small> <!--date needs to be small in size-->
+          </div>
         
         <div class="col-md-6">
           <!--if else for number of stars goes here-->
