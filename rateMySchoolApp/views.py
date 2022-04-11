@@ -79,8 +79,8 @@ def college_rating(request):
             # later should be ordered by users badge (Gold, Silver, Platinium)
             universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-rate_stars')
             raterUser = universityRatePosts[0].raterUser
-            raterProfile = Profile.objects.filter(user=raterUser)
-            test = raterProfile[0].verified
+            #raterProfile = Profile.objects.filter(user=raterUser)
+            #test = raterProfile[0].verified
             for post in universityRatePosts:
                 # user_id = post.raterUser.id
                 # user_profile = Profile.objects.filter(user = user_id)
