@@ -1,0 +1,2 @@
+to run django shell, use:
+python manage.py shell

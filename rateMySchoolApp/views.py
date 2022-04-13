@@ -137,3 +137,12 @@ def myRatings(request):
         'userPosts': userPosts
     }
     return render(request, 'rateMySchool/myratings.html', context)
+
+@login_required
+def profile(request):
+    """renders the user's profile"""
+    userprofile = Profile.objects.filter(user = request.user)[0]
+    context={
+        'userprofile': userprofile
+    }
+    return render(request, 'rateMySchool/profile.html', context)
