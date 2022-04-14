@@ -1,2 +1,6 @@
-to run django shell, use:
-python manage.py shell
+-> to run django shell, use:
+'python manage.py shell'
+
+
+-> to run a django python shell on heroku use:
+'heroku run python manage.py shell --app rateacademia'

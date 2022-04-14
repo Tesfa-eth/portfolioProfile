@@ -1,6 +1,6 @@
 # # creates profiles to existing users
 # from django.contrib.auth.models import User
-# from .models import Profile
+# from rateMySchoolApp.models import Profile
 
 # users = User.objects.filter(profile=None)
 # print("creating profiles for" + len(users) + "users")
