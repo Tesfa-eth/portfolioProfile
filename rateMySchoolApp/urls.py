@@ -5,6 +5,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name='ratemySchool-index'),
     path('collegeRating/', views.college_rating, name='collegeRating'),
-    path("dashboard/", views.dashboard, name="dashboard"), # new
-    path("accounts/", include("allauth.urls")), # new
+    path("dashboard/", views.dashboard, name="dashboard"), 
+    path("myratings/", views.myRatings, name="myratings"), 
+    path("profile/", views.profile, name="profile"), 
+    path("accounts/", include("allauth.urls")),
 ]

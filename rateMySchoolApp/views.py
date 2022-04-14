@@ -50,6 +50,7 @@ def college_rating(request):
     """renders college rating page"""
     # Todo: make sure that one user can't rate a university more than once
     #     : numerical and text ratings should be overwritten
+    #     : make sure a user profile is created everytime a user signs up
     summary = ''
     searchedUniversity = ''
     labledRatings = ''
@@ -58,6 +59,10 @@ def college_rating(request):
     universityRatePosts = ''
     graph_data = []
     univeristies = Universities.objects.all()
+    test = 'test' # test printing
+    test_dict = {'name': 'Tesfa', 'age': 44}
+    
+    test = ''
     if 'collegeQuery' in request.GET:
         q = request.GET['collegeQuery']
         crude_data = Universities.objects.filter(name__icontains=q)
@@ -73,7 +78,13 @@ def college_rating(request):
             
             # later should be ordered by users badge (Gold, Silver, Platinium)
             universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-rate_stars')
+            raterUser = universityRatePosts[0].raterUser
+            #raterProfile = Profile.objects.filter(user=raterUser)
+            #test = raterProfile[0].verified
             for post in universityRatePosts:
+                # user_id = post.raterUser.id
+                # user_profile = Profile.objects.filter(user = user_id)
+                # test = user_profile, user_id
                 graph_data.append(post.rate_stars)
             
             average_rating = Average(graph_data)
@@ -86,6 +97,8 @@ def college_rating(request):
             
 
     context = {
+        'test_dict': test_dict,
+        'test': test, # test printing
         'universities' : univeristies,
         'wiki_summary': summary,
         'universities' : univeristies,
@@ -115,3 +128,21 @@ def dashboard(request):
         'form': form,
     }
     return render(request, 'rateMySchool/dashboard.html', context)
+
+@login_required
+def myRatings(request):
+    """renders the user's ratings so far"""
+    userPosts = Post.objects.filter(raterUser=request.user)
+    context={
+        'userPosts': userPosts
+    }
+    return render(request, 'rateMySchool/myratings.html', context)
+
+@login_required
+def profile(request):
+    """renders the user's profile"""
+    userprofile = Profile.objects.filter(user = request.user)[0]
+    context={
+        'userprofile': userprofile
+    }
+    return render(request, 'rateMySchool/profile.html', context)

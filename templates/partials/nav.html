@@ -11,9 +11,9 @@
           </li>
           {% if user.is_authenticated %}
           <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
-          <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">My ratings</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'myratings' %}">My ratings</a>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">{{ user.username }}</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">{{ user.username }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'account_logout' %}">Log out</a>

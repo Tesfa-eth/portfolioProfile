@@ -1,7 +1,7 @@
 {%extends 'partials/base.html'%} {% load socialaccount %}
 
 {%block header_container%}
-    <h2 style="color: #333B84; text-align: center;">College rating</h2>
+    <h2 style="color: #333B84; text-align: center;">College rating {{test}}</h2>
 {%endblock%}
 
 {%block search%}
@@ -72,11 +72,18 @@
       <div class="row pt-2 mb-2">
         <div class="col-md-6">
           <div style="color: white;display:inline;font-weight:bold;"> {{post.raterUser}}
-            {%if post.verified%}
+            {%if post.raterUser.profile.verified%}
             <i class="fa-solid fa-circle-check"></i>
             {%endif%}
-           </div> <b style="color: #E5E4E2;">(badge)</b>  <br> <small>{{post.date_created}}</small> <!--date needs to be small in size-->
-        </div>
+           </div> <b style="color: #E5E4E2;">badge points: {{post.raterUser.profile.bagdeValue}}</b>
+           {% if user.is_authenticated %}
+              {%if post.raterUser.id == user.id%}
+              <button class="btn btn-outline-primary" style="font-size: 12px;"  type="submit"> Edit Post</button>
+              {%endif%}
+            {%endif%}  
+            <br> 
+            <small>{{post.date_created}}</small> <!--date needs to be small in size-->
+          </div>
         
         <div class="col-md-6">
           <!--if else for number of stars goes here-->

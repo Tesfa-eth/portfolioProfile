@@ -1,0 +1,17 @@
+{% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
+{% block content %} 
+<div class="container" style="text-align: center; padding-top: 3%;">
+    Username: {{userprofile}}
+    <br>
+    First name: {{userprofile.firstName}}
+    <br>
+    Last name: {{userprofile.lastName}}
+    <br>
+    Bio: {{userprofile.bio}}
+    <br>
+    Verification status: {{userprofile.verified}}
+    <br>
+    Badge Value: {{userprofile.bagdeValue}}
+    
+</div>
+{% endblock content %}

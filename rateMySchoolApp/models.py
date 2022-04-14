@@ -6,6 +6,8 @@ from django.db import models
 from django.utils import timezone
 from sqlalchemy import null # get time zone
 from django.contrib.auth.models import User # default user model
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 # Create your models here.
 
 # Create your models here.
@@ -17,6 +19,30 @@ from django.contrib.auth.models import User # default user model
 
 # Extending User Model Using a One-To-One Link
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    firstName = models.CharField(default=null, max_length=20)
+    lastName = models.CharField(default=null, max_length=20)
+    # avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+    bio = models.TextField(default=null)
+    verified = models.BooleanField(default=False)
+    blocked = models.BooleanField(default=False)
+    reported = models.IntegerField(default=0) 
+    bagdeValue = models.IntegerField(default=0)
+
+    # create profile whenever user is created.
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+    
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    def __str__(self):
+        return self.user.username
+
 
 class Universities(models.Model):
     name = models.CharField(max_length=100)
@@ -26,19 +52,6 @@ class Universities(models.Model):
     def __str__(self) -> str:
         return self.name
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    firstName = models.CharField(default=null, max_length=20)
-    lastName = models.CharField(default=null, max_length=20)
-    # avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
-    bio = models.TextField()
-    verified = models.BooleanField(default=False)
-    blocked = models.BooleanField(default=False)
-    reported = models.IntegerField(default=0) 
-    bagdeValue = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.user.username
 
 class Post(models.Model):
     postcontent = models.CharField(max_length=200)
