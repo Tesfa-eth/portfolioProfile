@@ -1,9 +1,11 @@
+import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
-from .forms import UniversityRateForm
+from .forms import UniversityRateForm, EditUniversityRatePostForm
 import wikipediaapi
+import logging
 
 # Create your views here.
 def index(request):
@@ -147,6 +149,19 @@ def profile(request):
     }
     return render(request, 'rateMySchool/profile.html', context)
 
-# @login_required
-# def updatePost(request):
-#     return render(request, '')
+@login_required
+def updatePost(request, pk):
+    post = Post.objects.get(id=pk)
+    if request.method == 'POST':
+        form = EditUniversityRatePostForm(request.POST, instance=post)
+        if form.is_valid:
+            form.save()
+            return redirect('/collegeRating/')
+    else:
+        form = EditUniversityRatePostForm(instance=post)
+    logging.debug("Edit button recieved")
+    print("Edit button recieved")
+    context = {
+        'form': form,
+    }
+    return render(request, 'rateMySchool/updatePost.html', context)

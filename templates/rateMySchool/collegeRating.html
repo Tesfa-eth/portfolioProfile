@@ -78,7 +78,7 @@
            </div> <b style="color: #E5E4E2;">badge points: {{post.raterUser.profile.bagdeValue}}</b>
            {% if user.is_authenticated %}
               {%if post.raterUser.id == user.id%}
-              <button class="btn btn-outline-primary" style="font-size: 12px;"  type="submit"> Edit Post</button>
+              <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
               {%endif%}
             {%endif%}  
             <br> 

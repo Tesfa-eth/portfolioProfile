@@ -67,4 +67,8 @@ class Post(models.Model):
     ratedBody = models.ForeignKey(Universities, on_delete=models.CASCADE)
     raterUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    # add two values here
+    # bool: post edited?
+    # edited date: ?
+
    

@@ -1,4 +1,5 @@
 from cProfile import label
+from pyexpat import model
 from django import forms
 from .models import Post, Universities
 from django.contrib.auth.models import User
@@ -16,3 +17,9 @@ class UniversityRateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['ratedBody', 'postcontent', 'rate_stars']
+
+
+class EditUniversityRatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['postcontent', 'rate_stars']
