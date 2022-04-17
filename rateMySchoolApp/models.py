@@ -54,7 +54,8 @@ class Universities(models.Model):
 
 
 class Post(models.Model):
-    postcontent = models.CharField(max_length=200)
+    #postcontent = models.CharField(max_length=200)
+    postcontent = models.TextField(max_length=200)
     # Reminder: changed the the zone in settings.py from UTC to EST
     date_created = models.DateTimeField(auto_now_add=True)
     # postNum = models.IntegerField()

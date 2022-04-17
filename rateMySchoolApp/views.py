@@ -146,3 +146,7 @@ def profile(request):
         'userprofile': userprofile
     }
     return render(request, 'rateMySchool/profile.html', context)
+
+# @login_required
+# def updatePost(request):
+#     return render(request, '')
