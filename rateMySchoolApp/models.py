@@ -58,6 +58,10 @@ class Post(models.Model):
     postcontent = models.TextField(max_length=200)
     # Reminder: changed the the zone in settings.py from UTC to EST
     date_created = models.DateTimeField(auto_now_add=True)
+    date_last_edited = models.DateTimeField(auto_now= True) # last edited
+    edited = models.BooleanField(default=False)
+    reported = models.BooleanField(default=False) # post reported
+    reportedCount = models.IntegerField(default=0)
     # postNum = models.IntegerField()
     upvoteCount = models.IntegerField(default=0)
     downvoteCount = models.IntegerField(default=0)

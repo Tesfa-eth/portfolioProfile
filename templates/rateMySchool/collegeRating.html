@@ -82,7 +82,11 @@
               {%endif%}
             {%endif%}  
             <br> 
-            <small>{{post.date_created}}</small> <!--date needs to be small in size-->
+            {%if post.edited%}
+            <small>Last modified on: {{post.date_last_edited}} </small>
+            {%else%}
+            <small> {{post.date_created}}</small>
+            {%endif%}
           </div>
         
         <div class="col-md-6">

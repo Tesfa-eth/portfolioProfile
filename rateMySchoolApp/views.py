@@ -152,16 +152,23 @@ def profile(request):
 @login_required
 def updatePost(request, pk):
     post = Post.objects.get(id=pk)
+    test = ''
     if request.method == 'POST':
         form = EditUniversityRatePostForm(request.POST, instance=post)
         if form.is_valid:
-            form.save()
+            obj = form.save(commit=False)
+            obj.edited = True
+            obj.save() 
+            #form.save()
             return redirect('/collegeRating/')
     else:
         form = EditUniversityRatePostForm(instance=post)
     logging.debug("Edit button recieved")
     print("Edit button recieved")
+    if request.user.is_superuser:
+        test = True
     context = {
         'form': form,
+        'test': test,
     }
     return render(request, 'rateMySchool/updatePost.html', context)
