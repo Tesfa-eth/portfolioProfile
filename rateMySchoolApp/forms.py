@@ -1,7 +1,7 @@
 from cProfile import label
 from pyexpat import model
 from django import forms
-from .models import Post, Universities
+from .models import Post, Profile, Universities
 from django.contrib.auth.models import User
 
 
@@ -23,3 +23,8 @@ class EditUniversityRatePostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['postcontent', 'rate_stars']
+
+class UserProfileManagementForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['blocked']

@@ -53,6 +53,7 @@ class Universities(models.Model):
         return self.name
 
 
+# add nsfw and abusive words count report for post details
 class Post(models.Model):
     #postcontent = models.CharField(max_length=200)
     postcontent = models.TextField(max_length=200)

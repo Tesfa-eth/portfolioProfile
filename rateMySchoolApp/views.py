@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
-from .forms import UniversityRateForm, EditUniversityRatePostForm
+from .forms import UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
 import wikipediaapi
 import logging
 
@@ -115,7 +115,10 @@ def college_rating(request):
 
 #@login_required #, if necessary
 def dashboard(request):
-
+    if request.user.is_authenticated:
+        userprofile = Profile.objects.filter(user = request.user.id)[0]
+    else:
+        userprofile = ''
     if request.method == 'POST':
         form = UniversityRateForm(request.POST)
         if form.is_valid():
@@ -128,6 +131,7 @@ def dashboard(request):
     
     context = {
         'form': form,
+        'userprofile': userprofile,
     }
     return render(request, 'rateMySchool/dashboard.html', context)
 
@@ -184,8 +188,19 @@ def managePosts(request):
 
 @login_required # restrict to admins only
 def manageUserProfile(request, pk):
-    userProfile = Profile.objects.get(id=pk)
+    # pk is the id of the user
+    # get the profile id of the user
+    userProfile = Profile.objects.filter(user = pk)[0]
+    #userProfile = Profile.objects.get(id=pk)
+    if request.method == 'POST':
+        form = UserProfileManagementForm(request.POST, instance=userProfile)
+        if form.is_valid:
+            form.save()
+            return redirect('/managePosts/')
+    else:
+        form = UserProfileManagementForm(instance=userProfile)
     context = {
         'userProfile': userProfile,
+        'form': form,
     }
     return render(request, 'rateMySchool/manageUserProfile.html', context)

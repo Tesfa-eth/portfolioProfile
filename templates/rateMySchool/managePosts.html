@@ -1,6 +1,7 @@
 {% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
 {% block content %}
 
+{%if user.is_staff%}
 <div class="row mt-3 pt-3">
     <div class="col-md-3">
     </div>
@@ -40,6 +41,7 @@
             <th>{{post.reportedCount}}</th>
             <th>{{post.upvoteCount}}</th>
             <th>{{post.downvoteCount}}</th>
+            <!--if the user is already blocked or not-->
         </tr>
         
         </div>
@@ -49,4 +51,9 @@
     </div>
 {%endfor%}
 </table>
+
+{%else%}
+Sorry, you are not allowed to access this page!
+
+{%endif%}
 {%endblock content%}

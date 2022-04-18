@@ -3,7 +3,9 @@
 {% block content %}
 
 <div class="container" style="text-align: center; padding-top: 3%;">
-  {% if user.is_authenticated %}
+  {%if userprofile.blocked%}
+  <h3>You have violated community guidelines. Hence, you have been blocked from contributing to Rate Academia.</h3>
+  {% elif user.is_authenticated%}
     <h1>Rate Academia</h1>
     <p>Welcome {{ user.username }}, who would you like to rate today?</p>
     
