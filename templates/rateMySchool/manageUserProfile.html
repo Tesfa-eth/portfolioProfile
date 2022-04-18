@@ -1,0 +1,24 @@
+{% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
+{% block content %}
+<div class="row mt-3 pt-3">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 shadow">
+        <h2>User detail</h2>
+        First name: {{userProfile.firstName}}
+        <br>
+        Last name: {{userProfile.lastName}}
+        <br>
+        Bio: {{userProfile.bio}}
+        <br>
+        Verified: {{userProfile.verified}}
+        <br>
+        Blocked: {{userProfile.blocked}}
+        <br>
+        Bagde Value: {{userProfile.bagdeValue}}
+    </div>
+    <div class="col-md-3">
+    </div>
+    </div>
+</div>
+{%endblock content%}

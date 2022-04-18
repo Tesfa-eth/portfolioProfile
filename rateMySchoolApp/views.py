@@ -172,3 +172,20 @@ def updatePost(request, pk):
         'test': test,
     }
     return render(request, 'rateMySchool/updatePost.html', context)
+
+@login_required # restrict to admins only
+def managePosts(request):
+    posts = Post.objects.filter(reported=True).order_by('-reportedCount')
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'rateMySchool/managePosts.html', context)
+
+
+@login_required # restrict to admins only
+def manageUserProfile(request, pk):
+    userProfile = Profile.objects.get(id=pk)
+    context = {
+        'userProfile': userProfile,
+    }
+    return render(request, 'rateMySchool/manageUserProfile.html', context)

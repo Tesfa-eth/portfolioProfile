@@ -10,4 +10,8 @@ urlpatterns = [
     path('updatePost/<int:pk>/', views.updatePost, name="updatepost"), 
     path("profile/", views.profile, name="profile"), 
     path("accounts/", include("allauth.urls")),
+    # admin manage Posts
+    path('managePosts/', views.managePosts, name='manageposts'),
+    path('manageuser/<int:pk>/', views.manageUserProfile, name='manageuser')
+
 ]

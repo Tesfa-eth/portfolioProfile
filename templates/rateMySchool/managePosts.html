@@ -1,0 +1,52 @@
+{% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
+{% block content %}
+
+<div class="row mt-3 pt-3">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 shadow">
+        <h1> Post management </h1>
+    </div>
+    <div class="col-md-3">
+    </div>
+    </div>
+</div>
+<div class="row mt-1">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+    <table>
+    <tr>
+        <th>User</th>
+        <th>Post Content</th>
+        <th>Reported</th>
+        <th>Upvotes</th>
+        <th>DownVotes</th>
+    
+    </div>
+    <div class="col-md-2">
+    </div>
+    </div>
+</div>
+{%for post in posts%}
+<div class="row mt-1 mb-3">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+          
+        <tr>
+            <th><a href="{%url 'manageuser' post.raterUser.id%}"> {{post.raterUser}}</a></th>
+            <th><a href="{%url 'updatepost' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
+            <th>{{post.reportedCount}}</th>
+            <th>{{post.upvoteCount}}</th>
+            <th>{{post.downvoteCount}}</th>
+        </tr>
+        
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+    </div>
+{%endfor%}
+</table>
+{%endblock content%}
