@@ -53,10 +53,16 @@ class Universities(models.Model):
         return self.name
 
 
+# add nsfw and abusive words count report for post details
 class Post(models.Model):
-    postcontent = models.CharField(max_length=200)
+    #postcontent = models.CharField(max_length=200)
+    postcontent = models.TextField(max_length=200)
     # Reminder: changed the the zone in settings.py from UTC to EST
     date_created = models.DateTimeField(auto_now_add=True)
+    date_last_edited = models.DateTimeField(auto_now= True) # last edited
+    edited = models.BooleanField(default=False)
+    reported = models.BooleanField(default=False) # post reported
+    reportedCount = models.IntegerField(default=0)
     # postNum = models.IntegerField()
     upvoteCount = models.IntegerField(default=0)
     downvoteCount = models.IntegerField(default=0)
@@ -65,5 +71,9 @@ class Post(models.Model):
     # foriegn ID connected to the user and rated body
     ratedBody = models.ForeignKey(Universities, on_delete=models.CASCADE)
     raterUser = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # add two values here
+    # bool: post edited?
+    # edited date: ?
 
    

@@ -1,9 +1,11 @@
+import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
-from .forms import UniversityRateForm
+from .forms import UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
 import wikipediaapi
+import logging
 
 # Create your views here.
 def index(request):
@@ -113,7 +115,10 @@ def college_rating(request):
 
 #@login_required #, if necessary
 def dashboard(request):
-
+    if request.user.is_authenticated:
+        userprofile = Profile.objects.filter(user = request.user.id)[0]
+    else:
+        userprofile = ''
     if request.method == 'POST':
         form = UniversityRateForm(request.POST)
         if form.is_valid():
@@ -126,6 +131,7 @@ def dashboard(request):
     
     context = {
         'form': form,
+        'userprofile': userprofile,
     }
     return render(request, 'rateMySchool/dashboard.html', context)
 
@@ -146,3 +152,55 @@ def profile(request):
         'userprofile': userprofile
     }
     return render(request, 'rateMySchool/profile.html', context)
+
+@login_required
+def updatePost(request, pk):
+    post = Post.objects.get(id=pk)
+    test = ''
+    if request.method == 'POST':
+        form = EditUniversityRatePostForm(request.POST, instance=post)
+        if form.is_valid:
+            obj = form.save(commit=False)
+            obj.edited = True
+            obj.save() 
+            #form.save()
+            return redirect('/collegeRating/')
+    else:
+        form = EditUniversityRatePostForm(instance=post)
+    logging.debug("Edit button recieved")
+    print("Edit button recieved")
+    if request.user.is_superuser:
+        test = True
+    context = {
+        'form': form,
+        'test': test,
+    }
+    return render(request, 'rateMySchool/updatePost.html', context)
+
+@login_required # restrict to admins only
+def managePosts(request):
+    posts = Post.objects.filter(reported=True).order_by('-reportedCount')
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'rateMySchool/managePosts.html', context)
+
+
+@login_required # restrict to admins only
+def manageUserProfile(request, pk):
+    # pk is the id of the user
+    # get the profile id of the user
+    userProfile = Profile.objects.filter(user = pk)[0]
+    #userProfile = Profile.objects.get(id=pk)
+    if request.method == 'POST':
+        form = UserProfileManagementForm(request.POST, instance=userProfile)
+        if form.is_valid:
+            form.save()
+            return redirect('/managePosts/')
+    else:
+        form = UserProfileManagementForm(instance=userProfile)
+    context = {
+        'userProfile': userProfile,
+        'form': form,
+    }
+    return render(request, 'rateMySchool/manageUserProfile.html', context)

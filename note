@@ -4,3 +4,10 @@
 
 -> to run a django python shell on heroku use:
 'heroku run python manage.py shell --app rateacademia'
+
+->Deploy on heroku
+1.'heroku apps' (lists heroku apps)
+2.'heroku git:remote -a rateacademia' (connect 'heroku' command to specific app)
+3.'git remote -v' (check if step 2 worked)
+4. 'git push heroku voting,editsandBadge' (push a branch but doesn't push it)
+5. 'git push heroku voting,editsandBadge:master'  (pushes and builds. And to push a master branch do git push heroku main:master)

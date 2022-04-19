@@ -7,6 +7,11 @@ urlpatterns = [
     path('collegeRating/', views.college_rating, name='collegeRating'),
     path("dashboard/", views.dashboard, name="dashboard"), 
     path("myratings/", views.myRatings, name="myratings"), 
+    path('updatePost/<int:pk>/', views.updatePost, name="updatepost"), 
     path("profile/", views.profile, name="profile"), 
     path("accounts/", include("allauth.urls")),
+    # admin manage Posts
+    path('managePosts/', views.managePosts, name='manageposts'),
+    path('manageuser/<int:pk>/', views.manageUserProfile, name='manageuser')
+
 ]
