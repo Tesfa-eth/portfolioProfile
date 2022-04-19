@@ -54,6 +54,7 @@ def college_rating(request):
     # Todo: make sure that one user can't rate a university more than once
     #     : numerical and text ratings should be overwritten
     #     : make sure a user profile is created everytime a user signs up
+    currentUserProfile = Profile.objects.filter(user=request.user)[0]
     summary = ''
     searchedUniversity = ''
     labledRatings = ''
@@ -111,6 +112,7 @@ def college_rating(request):
         'graph_data': labledRatings,
         'lable': lable,
         'average_rating': average_rating,
+        'currentUserProfile': currentUserProfile,
     }
     return render(request, 'rateMySchool/collegeRating.html', context)
 

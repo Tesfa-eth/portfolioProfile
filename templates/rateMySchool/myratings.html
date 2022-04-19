@@ -4,7 +4,17 @@
     <h1>{{ user.username }}'s ratings</h1>
     {%for post in userPosts%}
     
-    Name: {{post.ratedBody}} Rate: {{post.rate_stars}} Content: {{post.postcontent}} Upvotes: {{post.upvoteCount}} DownVotes: {{post.downvoteCount}}
+    <i>Rated body</i>: {{post.ratedBody}}
+    <br> 
+    <i>Rate stars</i>: {{post.rate_stars}}
+    <br>
+    <i>Content</i>: {{post.postcontent|safe|slice:":25" }}... 
+    <br>
+    <i>Upvotes</i>: {{post.upvoteCount}} 
+    <br>
+    <i>DownVotes</i>: {{post.downvoteCount}} 
+    <br>
+    <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
     <hr>
     {%endfor%}
 </div>
