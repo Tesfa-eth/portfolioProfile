@@ -67,6 +67,7 @@
     <!--individual rating 2-->
 
     {%for post in posts%}
+    {%if not post.raterUser.profile.blocked%}
     <div class="border p-3 mt-3 mb-2 shadow" style="background-color:#9ea4e0;">
               
       <div class="row pt-2 mb-2">
@@ -112,25 +113,26 @@
 
         </div>
       </div>
-
       {{post.postcontent}}
       <!--bottom of individual rating. Consists upvote and downvote-->
       <div class="row pt-3">
         <div class="col-md-4">
           
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <!--one is button and the other is int-->
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
           <!--one is button and the other is int-->
           <button class="btn btn-outline-primary" style="font-size: 12px;"  type="submit">{{post.upvoteCount}} upvote</button>
           <button class="btn btn-outline-danger" style="font-size: 12px;" type="submit">{{post.downvoteCount}} downvote</button>
+          <button class="btn btn-outline-dark" style="font-size: 12px;" type="submit">Report</button>
              
         </div>
       </div>
 
     </div>
+    {%endif%}
     {%endfor%}
     
 {%endblock%}

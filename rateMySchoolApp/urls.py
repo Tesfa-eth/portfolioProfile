@@ -12,6 +12,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # admin manage Posts
     path('managePosts/', views.managePosts, name='manageposts'),
-    path('manageuser/<int:pk>/', views.manageUserProfile, name='manageuser')
+    path('manageuser/<int:pk>/', views.manageUserProfile, name='manageuser'),
+    path('postdetail/<int:pk>/', views.postDetail, name='postdetail')
 
 ]

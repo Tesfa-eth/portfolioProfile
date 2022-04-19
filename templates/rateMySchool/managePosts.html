@@ -37,7 +37,7 @@
           
         <tr>
             <th><a href="{%url 'manageuser' post.raterUser.id%}"> {{post.raterUser}}</a></th>
-            <th><a href="{%url 'updatepost' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
+            <th><a href="{%url 'postdetail' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
             <th>{{post.reportedCount}}</th>
             <th>{{post.upvoteCount}}</th>
             <th>{{post.downvoteCount}}</th>

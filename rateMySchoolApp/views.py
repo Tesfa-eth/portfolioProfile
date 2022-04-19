@@ -185,6 +185,13 @@ def managePosts(request):
     }
     return render(request, 'rateMySchool/managePosts.html', context)
 
+@login_required
+def postDetail(request, pk):
+    post = Post.objects.get(id=pk)
+    context = {
+        'post':post
+    }
+    return render(request, 'rateMySchool/postDetail.html', context)
 
 @login_required # restrict to admins only
 def manageUserProfile(request, pk):
