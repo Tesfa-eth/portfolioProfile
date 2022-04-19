@@ -5,14 +5,18 @@
     </div>
     <div class="col-md-6 p-4 shadow">
         {%if currentUserProfile not in alreadyreportedUsers%}
-        Are you sure you want to report this post?
+        <b>Are you sure you want to report this post post by {{reportedPost.raterUser}}?</b>
+        <br>
+        {{reportedPost.postcontent|safe|linebreaks|truncatewords:10}}
          <form method="POST">
             {%csrf_token%}
             <a  class="btn btn-secondary" href="{%url 'collegeRating'%}">Cancel</a>
             <input class="btn btn-danger" type="submit" value="Confirm">
         </form>
         {%else%}
-        You have already reported this user. {{alreadyreportedUsers}}
+        <b>You have already reported this post by {{reportedPost.raterUser}}.</b>
+        <br>
+        {{reportedPost.postcontent|safe|linebreaks|truncatewords:8}}
          <form method="POST">
             {%csrf_token%}
             <input class="btn btn-secondary" type="submit" value="Takeback">

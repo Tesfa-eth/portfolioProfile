@@ -188,8 +188,10 @@ def managePosts(request):
 @login_required
 def postDetail(request, pk):
     post = Post.objects.get(id=pk)
+    alreadyReportedUsers = post.postreportedUsers.all()
     context = {
-        'post':post
+        'post':post,
+        'alreadyReportedUsers': alreadyReportedUsers,
     }
     return render(request, 'rateMySchool/postDetail.html', context)
 
@@ -235,6 +237,7 @@ def reportConfirmation(request, pk):
     else:
         form = ReportPostForm(instance=reportedPost)
     context = {
+        'reportedPost': reportedPost,
         'alreadyreportedUsers':alreadyReportedUsers,
         'currentUserProfile': currentUserProfile,
     }
