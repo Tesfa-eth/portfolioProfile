@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
+from django.db.models import Count
 from .forms import ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
 import wikipediaapi
 import logging
@@ -169,8 +170,8 @@ def updatePost(request, pk):
         form = EditUniversityRatePostForm(instance=post)
     logging.debug("Edit button recieved")
     print("Edit button recieved")
-    if request.user.is_superuser:
-        test = True
+    # if request.user.is_superuser:
+    #     test = True
     context = {
         'form': form,
         'test': test,
@@ -179,7 +180,8 @@ def updatePost(request, pk):
 
 @login_required # restrict to admins only
 def managePosts(request):
-    posts = Post.objects.filter(reported=True).order_by('-reportedCount')
+    # find reported, and sort by how many times each are reported.
+    posts = Post.objects.filter(reported=True).annotate(report_count=Count('postreportedUsers')).order_by('-report_count')
     context = {
         'posts': posts,
     }
