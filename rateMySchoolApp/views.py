@@ -141,7 +141,7 @@ def dashboard(request):
 @login_required
 def myRatings(request):
     """renders the user's ratings so far"""
-    userPosts = Post.objects.filter(raterUser=request.user)
+    userPosts = Post.objects.filter(raterUser=request.user).order_by('-date_last_edited')
     context={
         'userPosts': userPosts
     }
@@ -167,7 +167,7 @@ def updatePost(request, pk):
             obj.edited = True
             obj.save() 
             #form.save()
-            return redirect('/collegeRating/')
+            return redirect('/myratings/')
     else:
         form = EditUniversityRatePostForm(instance=post)
     logging.debug("Edit button recieved")
