@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
-from .forms import UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
+from .forms import ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
 import wikipediaapi
 import logging
 
@@ -211,3 +211,31 @@ def manageUserProfile(request, pk):
         'form': form,
     }
     return render(request, 'rateMySchool/manageUserProfile.html', context)
+
+@login_required
+def reportConfirmation(request, pk):
+    reportedPost = Post.objects.get(id=pk)
+    alreadyReportedUsers = reportedPost.postreportedUsers.all()
+    currentUserProfile = Profile.objects.filter(user=request.user)[0]
+    if request.method == 'POST':
+        # update the reported to true!
+        if currentUserProfile not in alreadyReportedUsers:
+            reportedPost.postreportedUsers.add(currentUserProfile)
+        else:
+            reportedPost.postreportedUsers.remove(currentUserProfile)
+        form = ReportPostForm(request.POST, instance=reportedPost)
+        if form.is_valid:
+            obj = form.save(commit=False)
+            if len(reportedPost.postreportedUsers.all()) > 0:
+                obj.reported = True
+            else:
+                obj.reported = False
+            obj.save()
+            return redirect('/collegeRating/')
+    else:
+        form = ReportPostForm(instance=reportedPost)
+    context = {
+        'alreadyreportedUsers':alreadyReportedUsers,
+        'currentUserProfile': currentUserProfile,
+    }
+    return render(request, 'rateMySchool/reportConfirmation.html', context)

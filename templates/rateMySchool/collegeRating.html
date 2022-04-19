@@ -126,7 +126,7 @@
           <!--one is button and the other is int-->
           <button class="btn btn-outline-primary" style="font-size: 12px;"  type="submit">{{post.upvoteCount}} upvote</button>
           <button class="btn btn-outline-danger" style="font-size: 12px;" type="submit">{{post.downvoteCount}} downvote</button>
-          <button class="btn btn-outline-dark" style="font-size: 12px;" type="submit">Report</button>
+          <a class="btn btn-outline-dark" style="font-size: 12px;" href="{%url 'reportconfirmation' post.id%}">Report</a>
              
         </div>
       </div>

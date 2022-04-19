@@ -28,3 +28,8 @@ class UserProfileManagementForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['blocked']
+
+class ReportPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['reported']
