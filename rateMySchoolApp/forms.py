@@ -12,12 +12,11 @@ class UniversityRateForm(forms.ModelForm):
     # foriegn key as a dropdown
     ratedBody = forms.ModelChoiceField(label='Which university would you like to rate?', queryset=univeristies)
     #raterUser = User
-    rate_stars = forms.IntegerField()
+    rate_stars = forms.IntegerField(max_value=5, min_value=1)
     
     class Meta:
         model = Post
         fields = ['ratedBody', 'postcontent', 'rate_stars']
-
 
 class EditUniversityRatePostForm(forms.ModelForm):
     class Meta:

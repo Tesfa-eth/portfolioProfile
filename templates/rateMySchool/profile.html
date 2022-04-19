@@ -7,7 +7,7 @@
     <br>
     Last name: {{userprofile.lastName}}
     <br>
-    Bio: {{userprofile.bio|safe|linebreaks|truncatewords:5}}
+    Bio: {{userprofile.bio|safe|slice:":25" }}...
     <br>
     Verification status: {{userprofile.verified}}
     <br>

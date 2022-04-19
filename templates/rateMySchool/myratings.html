@@ -15,6 +15,7 @@
             <tr><th><i>Content</i></th> <th>{{post.postcontent|safe|slice:":25" }}... </th></tr>
             <tr><th><i>Created on</i></th> <th> {{post.date_created}} </th></tr>
             <tr><th><i>Last modified on</i></th> <th> {{post.date_last_edited}} </th></tr>
+            <tr><th><i>Report by users</i></th> <th> {{post.postreportedUsers.all.count}} </th></tr>
             <tr><th><i>Upvotes</i></th> <th> {{post.upvoteCount}} </th></tr>
             <tr><th><i>DownVotes</i></th> <th>{{post.downvoteCount}} </th></tr>
         </table>
