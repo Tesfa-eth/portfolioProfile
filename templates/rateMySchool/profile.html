@@ -1,17 +1,25 @@
 {% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
 {% block content %} 
 <div class="container" style="text-align: center; padding-top: 3%;">
-    Username: {{userprofile}}
-    <br>
-    First name: {{userprofile.firstName}}
-    <br>
-    Last name: {{userprofile.lastName}}
-    <br>
-    Bio: {{userprofile.bio|safe|slice:":25" }}...
-    <br>
-    Verification status: {{userprofile.verified}}
-    <br>
-    Badge Value: {{userprofile.bagdeValue}}
+    <div class="row pt-3">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 shadow p-3">
+    <table>
+        <tr><th><i>Username:</i></th><th>{{userprofile}}</th></tr>
+        <tr><th><i>First name:</i></th><th>{{userprofile.firstName}}</th></tr>
+        <tr><th><i>Last name:</i></th> <th>{{userprofile.lastName}}</th></tr>
+        <tr><th><i>Bio:</i></th> <th>{{userprofile.bio|safe|slice:":25" }}...</th></tr>
+        <tr><th><i>Verification status:</i></th> <th> {{userprofile.verified}}</th></tr>
+        <tr><th><i>Blocked:</i></th> <th>{{userprofile.blocked}}</th></tr>
+        <tr><th><i>Badge Value:</i></th> <th>{{userprofile.bagdeValue}}</th></tr>
+    </table>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-8">
     
+    </div>
+    </div>
 </div>
 {% endblock content %}
