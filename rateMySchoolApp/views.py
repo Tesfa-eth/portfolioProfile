@@ -67,7 +67,9 @@ def college_rating(request):
     test_dict = {'name': 'Tesfa', 'age': 44}
     
     test = ''
+    search = False # if the user searched
     if 'collegeQuery' in request.GET:
+        search = True
         q = request.GET['collegeQuery']
         crude_data = Universities.objects.filter(name__icontains=q)
         if len(crude_data) != 0: # if the search succeeds
@@ -101,6 +103,7 @@ def college_rating(request):
             
 
     context = {
+        'search': search,
         'test_dict': test_dict,
         'test': test, # test printing
         'universities' : univeristies,
