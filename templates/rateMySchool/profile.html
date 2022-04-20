@@ -1,10 +1,22 @@
 {% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
 {% block content %} 
+<div class="row pt-3 mt-3">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4 shadow">
+        <h1> Profile <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'editprofile'%}"> Edit Profile</a></h1>
+    </div>
+    <div class="col-md-4">
+    </div>
+    </div>
+</div>
+
+
 <div class="container" style="text-align: center; padding-top: 3%;">
-    <div class="row pt-3">
+    <div class="row pt-1">
     <div class="col-md-3">
     </div>
-    <div class="col-md-6 shadow p-3">
+    <div class="col-md-6 shadow p-3 mb-3">
     <table>
         <tr><th><i>Username:</i></th><th>{{userprofile}}</th></tr>
         <tr><th><i>First name:</i></th><th>{{userprofile.firstName}}</th></tr>
@@ -18,7 +30,6 @@
     <div class="col-md-4">
     </div>
     <div class="col-md-8">
-    
     </div>
     </div>
 </div>

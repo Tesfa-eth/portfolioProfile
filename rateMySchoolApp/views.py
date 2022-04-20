@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
 from django.db.models import Count
-from .forms import ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
+from .forms import EditUserProfile, ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
 import wikipediaapi
 import logging
 
@@ -158,6 +158,23 @@ def profile(request):
         'userprofile': userprofile
     }
     return render(request, 'rateMySchool/profile.html', context)
+
+@login_required
+def editProfile(request):
+    """edit user profile"""
+    userprofile = Profile.objects.filter(user = request.user)[0]
+    if request.method == 'POST':
+        form = EditUserProfile(request.POST, instance=userprofile)
+        if form.is_valid():   
+            form.save()
+            return redirect('/dashboard')
+    else:
+        form = EditUserProfile(instance=userprofile)
+    context = {
+        'test':'test',
+        'form': form,
+    }
+    return render(request, 'rateMySchool/editProfile.html', context)
 
 @login_required
 def updatePost(request, pk):

@@ -9,6 +9,7 @@ urlpatterns = [
     path("myratings/", views.myRatings, name="myratings"), 
     path('updatePost/<int:pk>/', views.updatePost, name="updatepost"), 
     path("profile/", views.profile, name="profile"), 
+    path("editProfile/", views.editProfile, name="editprofile"), 
     path("accounts/", include("allauth.urls")),
     # admin manage Posts
     path('managePosts/', views.managePosts, name='manageposts'),

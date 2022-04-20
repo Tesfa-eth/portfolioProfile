@@ -23,6 +23,11 @@ class EditUniversityRatePostForm(forms.ModelForm):
         model = Post
         fields = ['postcontent', 'rate_stars']
 
+class EditUserProfile(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['firstName', 'lastName', 'bio']
+
 class UserProfileManagementForm(forms.ModelForm):
     class Meta:
         model = Profile
