@@ -13,10 +13,38 @@ class UniversityRateForm(forms.ModelForm):
     ratedBody = forms.ModelChoiceField(label='Which university would you like to rate?', queryset=univeristies)
     #raterUser = User
     rate_stars = forms.IntegerField(max_value=5, min_value=1)
+
+    #fields = ['ratedBody', 'post_type', 'postcontent', 'rate_stars']
+        # post types
+        
+    def __init__(self, *args, **kwargs):
+        super(UniversityRateForm, self).__init__(*args, **kwargs)
+        #post_types = ('General', 'Academic', 'Social', 'Security')
+        post_types = [('General', 'General'), ('Academic', 'Academic'), ('Social', 'Social'), ('Security', 'Security')]
+        #portfolios = [('pf 1', 'pf 1'), ('pf 2', 'pf 2'), ('pf 3', 'pf 3')]
+
+        self.fields['post_type'] = forms.ChoiceField(
+                    widget=forms.RadioSelect(),
+                    choices=post_types,
+                    required=False,
+                    )
     
     class Meta:
         model = Post
-        fields = ['ratedBody', 'postcontent', 'rate_stars']
+        fields = ['ratedBody', 'post_type', 'postcontent', 'rate_stars']
+        # # post types
+        
+        # def __init__(self, *args, **kwargs):
+        #     super(UniversityRateForm, self).__init__(*args, **kwargs)
+        #     #post_types = ('General', 'Academic', 'Social', 'Security')
+        #     post_types = [('General', 'General'), ('Academic', 'Academic'), ('Social', 'Social'), ('Security', 'Security')]
+        #     #portfolios = [('pf 1', 'pf 1'), ('pf 2', 'pf 2'), ('pf 3', 'pf 3')]
+
+        #     self.fields['post_type'] = forms.ChoiceField(
+        #                 widget=forms.RadioSelect(),
+        #                 choices=post_types,
+        #                 required=False,
+        #                 )
 
 class EditUniversityRatePostForm(forms.ModelForm):
     class Meta:

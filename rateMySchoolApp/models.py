@@ -62,9 +62,11 @@ class Post(models.Model):
     date_last_edited = models.DateTimeField(auto_now= True) # last edited
     edited = models.BooleanField(default=False)
     reported = models.BooleanField(default=False) # post reported
+    # post type = 'general', 'academic', 'social', 'security'
+    post_type = models.CharField(max_length=50,null=True, blank=True)
     # keep track of who reported!
     # may need to be updated!
-    postreportedUsers = models.ManyToManyField(Profile)
+    postreportedUsers = models.ManyToManyField(Profile, null=True, blank=True)
     reportedCount = models.IntegerField(default=0)
     # postNum = models.IntegerField()
     upvoteCount = models.IntegerField(default=0)

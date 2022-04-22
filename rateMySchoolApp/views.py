@@ -53,14 +53,22 @@ def college_rating(request):
     """renders college rating page"""
     # Todo: make sure that one user can't rate a university more than once
     #     : numerical and text ratings should be overwritten
-    #     : make sure a user profile is created everytime a user signs up
-    currentUserProfile = Profile.objects.filter(user=request.user)[0]
+    #     : make sure a user profile is created everytime a user signs up (done)
+    currentUserProfile = ''
+    if request.user.is_authenticated:
+        currentUserProfile = Profile.objects.filter(user=request.user)[0]
     summary = ''
     searchedUniversity = ''
     labledRatings = ''
     lable = ''
     average_rating = ''
     universityRatePosts = ''
+    universityAcademicRatePosts = ''
+    universitySocialRatePosts = ''
+    universitySecurityRatePosts = ''
+    averageAcademicRating = ''
+    averageSocialRating = ''
+    averageSecurityRating = ''
     graph_data = []
     univeristies = Universities.objects.all()
     test = 'test' # test printing
@@ -84,9 +92,29 @@ def college_rating(request):
             
             # later should be ordered by users badge (Gold, Silver, Platinium)
             universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-rate_stars')
+            universityAcademicRatePosts = Post.objects.filter(ratedBody=searchedUniversity,post_type='Academic').order_by('-rate_stars')
+            universitySocialRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Social').order_by('-rate_stars')
+            universitySecurityRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Security').order_by('-rate_stars')
+
             raterUser = universityRatePosts[0].raterUser
             #raterProfile = Profile.objects.filter(user=raterUser)
             #test = raterProfile[0].verified
+            academicratings = []
+            for academicpost in universityAcademicRatePosts:
+                academicratings.append(academicpost.rate_stars)
+            averageAcademicRating = Average(academicratings)
+            
+            socialratings = []
+            for socialpost in universitySocialRatePosts:
+                socialratings.append(socialpost.rate_stars)
+            averageSocialRating = Average(socialratings)
+
+            securityratings = []
+            for securitypost in universitySecurityRatePosts:
+                securityratings.append(securitypost.rate_stars)
+                
+            averageSecurityRating = Average(securityratings)
+            
             for post in universityRatePosts:
                 # user_id = post.raterUser.id
                 # user_profile = Profile.objects.filter(user = user_id)
@@ -96,6 +124,8 @@ def college_rating(request):
             average_rating = Average(graph_data)
             # labled Ratings formerly graph_data
             lable, labledRatings = matchRatings(graph_data)
+
+            print(averageSecurityRating, "Average security rat")
 
             print(average_rating, lable, labledRatings)
             
@@ -116,6 +146,12 @@ def college_rating(request):
         'lable': lable,
         'average_rating': average_rating,
         'currentUserProfile': currentUserProfile,
+        'universityAcademicRatePosts': universityAcademicRatePosts,
+        'universitySocialRatePosts': universitySocialRatePosts,
+        'universitySecurityRatePosts': universitySecurityRatePosts,
+        'averageAcademicRating': averageAcademicRating,
+        'averageSocialRating': averageSocialRating,
+        'averageSecurityRating': averageSecurityRating,
     }
     return render(request, 'rateMySchool/collegeRating.html', context)
 
