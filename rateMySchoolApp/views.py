@@ -97,7 +97,10 @@ def college_rating(request):
             universitySocialRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Social').order_by('-rate_stars')
             universitySecurityRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Security').order_by('-rate_stars')
 
-            raterUser = universityRatePosts[0].raterUser
+            try:
+                raterUser = universityRatePosts[0].raterUser
+            except:
+                raterUser = ''
             #raterProfile = Profile.objects.filter(user=raterUser)
             #test = raterProfile[0].verified
             academicratings = []
