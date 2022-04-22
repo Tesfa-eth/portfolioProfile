@@ -1,5 +1,5 @@
 import re
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
@@ -54,6 +54,7 @@ def college_rating(request):
     # Todo: make sure that one user can't rate a university more than once
     #     : numerical and text ratings should be overwritten
     #     : make sure a user profile is created everytime a user signs up (done)
+    global searchQuery
     currentUserProfile = ''
     if request.user.is_authenticated:
         currentUserProfile = Profile.objects.filter(user=request.user)[0]
@@ -203,7 +204,7 @@ def editProfile(request):
         form = EditUserProfile(request.POST, instance=userprofile)
         if form.is_valid():   
             form.save()
-            return redirect('/dashboard')
+            return redirect('/profile')
     else:
         form = EditUserProfile(instance=userprofile)
     context = {
@@ -222,7 +223,6 @@ def updatePost(request, pk):
             obj = form.save(commit=False)
             obj.edited = True
             obj.save() 
-            #form.save()
             return redirect('/myratings/')
     else:
         form = EditUniversityRatePostForm(instance=post)
