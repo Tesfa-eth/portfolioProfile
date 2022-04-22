@@ -15,6 +15,8 @@ urlpatterns = [
     path('managePosts/', views.managePosts, name='manageposts'),
     path('manageuser/<int:pk>/', views.manageUserProfile, name='manageuser'),
     path('reportconfirmation/<int:pk>/', views.reportConfirmation, name='reportconfirmation'),
-    path('postdetail/<int:pk>/', views.postDetail, name='postdetail')
+    path('postdetail/<int:pk>/', views.postDetail, name='postdetail'),
+    path('upvote/<int:pk>/', views.upvote, name='upvote'),
+    path('downvote/<int:pk>/', views.downvote, name='downvote')
 
 ]

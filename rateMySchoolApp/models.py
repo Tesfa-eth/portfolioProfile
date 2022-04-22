@@ -67,6 +67,8 @@ class Post(models.Model):
     # keep track of who reported!
     # may need to be updated!
     postreportedUsers = models.ManyToManyField(Profile, null=True, blank=True)
+    upvote = models.ManyToManyField(Profile,related_name='upvote', null=True, blank=True)
+    downvote = models.ManyToManyField(Profile,related_name='downvote', null=True, blank=True)
     reportedCount = models.IntegerField(default=0)
     # postNum = models.IntegerField()
     upvoteCount = models.IntegerField(default=0)

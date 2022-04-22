@@ -302,3 +302,41 @@ def reportConfirmation(request, pk):
         'currentUserProfile': currentUserProfile,
     }
     return render(request, 'rateMySchool/reportConfirmation.html', context)
+
+
+@login_required
+def upvote(request, pk):
+    upvotedPost = Post.objects.get(id=pk)
+    alreadyUpvotedUsers = upvotedPost.upvote.all()
+    alreadyDownvotedUsers = upvotedPost.downvote.all()
+    currentUserProfile = Profile.objects.filter(user=request.user)[0]
+
+    # if request.method == 'POST':
+    # update the reported to true!
+    if currentUserProfile not in alreadyUpvotedUsers:
+        upvotedPost.upvote.add(currentUserProfile)
+    if currentUserProfile in alreadyUpvotedUsers:
+        upvotedPost.upvote.remove(currentUserProfile)
+    if currentUserProfile in alreadyDownvotedUsers:
+        upvotedPost.downvote.remove(currentUserProfile)
+    next = request.POST.get('next', '/')
+    print(next)
+    return redirect(request.META.get('HTTP_REFERER'))
+    #return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+def downvote(request, pk):
+    downvotedPost = Post.objects.get(id=pk)
+    alreadyUpvotedUsers = downvotedPost.upvote.all()
+    alreadyDownvotedUsers = downvotedPost.downvote.all()
+    currentUserProfile = Profile.objects.filter(user=request.user)[0]
+
+    # if request.method == 'POST':
+    # update the reported to true!
+    if currentUserProfile not in alreadyDownvotedUsers:
+        downvotedPost.downvote.add(currentUserProfile)
+    if currentUserProfile in alreadyDownvotedUsers:
+        downvotedPost.downvote.remove(currentUserProfile)
+    if currentUserProfile in alreadyUpvotedUsers:
+        downvotedPost.upvote.remove(currentUserProfile)
+    return redirect(request.META.get('HTTP_REFERER'))
