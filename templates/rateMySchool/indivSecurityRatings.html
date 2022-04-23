@@ -1,7 +1,7 @@
 {%if averageSecurityRating%}
 Security Rating: {{averageSecurityRating}}
 {%for post in universitySecurityRatePosts%}
-          {%if not post.raterUser.profile.blocked%}
+          {%if not post.raterUser.profile.blocked and not post.removed%}
           <div class="border p-3 mt-3 mb-2 shadow" style="background-color:#9ea4e0;">
                     
             <div class="row pt-2 mb-2">
