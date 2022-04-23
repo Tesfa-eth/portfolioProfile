@@ -21,6 +21,7 @@
         <th>User</th>
         <th>Post Content</th>
         <th>Reported</th>
+        <th>Profanity</th>
         <th>Upvotes</th>
         <th>DownVotes</th>
     
@@ -30,6 +31,7 @@
             <th><a href="{%url 'manageuser' post.raterUser.id%}"> {{post.raterUser}}</a></th>
             <th><a href="{%url 'postdetail' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
             <th>{{post.postreportedUsers.all.count}}</th>
+            <th>{{post.profanity_prob}}%</th>
             <th>{{post.upvote.all.count}}</th>
             <th>{{post.downvote.all.count}}</th>
             <!--if the user is already blocked or not-->

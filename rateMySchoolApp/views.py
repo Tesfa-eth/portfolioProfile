@@ -3,10 +3,13 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
-from django.db.models import Count
-from .forms import EditUserProfile, ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm
+from django.db.models import Count, Q
+from .forms import EditUserProfile, ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm, RemovePostForm
 import wikipediaapi
 import logging
+
+# WARNING: this package has lots of warning and needs to be taken care of at some point
+from profanity_check import predict, predict_prob
 
 # Create your views here.
 def index(request):
@@ -159,6 +162,21 @@ def college_rating(request):
     }
     return render(request, 'rateMySchool/collegeRating.html', context)
 
+def profanityLabler(prob, prelable):
+    """lables what should be done with the profanity probability result"""
+    result = ''
+    if prob < 0.5 and prelable == 0:
+        result = 'clean'
+    elif 0.5 <= prob < 0.75:
+        result = 'report'
+    elif prob >= 0.75 or prelable == 1:
+        result = 'reportAndremove'
+    return result
+
+def profanityProb(text):
+    """returns the probability of profanity of a cetain text"""
+    return predict_prob([text])[0], predict([text])[0]
+
 #@login_required #, if necessary
 def dashboard(request):
     if request.user.is_authenticated:
@@ -170,7 +188,16 @@ def dashboard(request):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.raterUser_id = request.user.id # connect it to the user
-            obj.save()    #form.save()
+            #print(profanityProb(obj.postcontent), "post content")
+            prob, prelable = profanityProb(obj.postcontent)
+            profanityResult = profanityLabler(prob, prelable)
+            obj.profanity_prob = round(prob*100, 4)
+            if profanityResult == 'report':
+                obj.auto_reported = True
+            elif profanityResult == 'reportAndremove':
+                obj.auto_reported = True
+                obj.removed = True
+            obj.save() 
             return redirect('/dashboard')
     else:
         form = UniversityRateForm()
@@ -216,6 +243,7 @@ def editProfile(request):
     }
     return render(request, 'rateMySchool/editProfile.html', context)
 
+
 @login_required
 def updatePost(request, pk):
     post = Post.objects.get(id=pk)
@@ -235,14 +263,19 @@ def updatePost(request, pk):
     #     test = True
     context = {
         'form': form,
+        'post': post,
         'test': test,
     }
     return render(request, 'rateMySchool/updatePost.html', context)
 
 @login_required # restrict to admins only
 def managePosts(request):
+    """WARNING: updates in the detail section change the the last modified date"""
+    # TODO: need to create a separate table called PostStatus. 
     # find reported, and sort by how many times each are reported.
-    posts = Post.objects.filter(reported=True).annotate(report_count=Count('postreportedUsers')).order_by('-report_count')
+    logic = Q(reported=True, auto_reported=True, _connector=Q.OR)
+    posts = Post.objects.filter(logic).annotate(report_count=Count('postreportedUsers')).order_by('-report_count')
+    
     context = {
         'posts': posts,
     }
@@ -252,9 +285,17 @@ def managePosts(request):
 def postDetail(request, pk):
     post = Post.objects.get(id=pk)
     alreadyReportedUsers = post.postreportedUsers.all()
+    if request.method == 'POST':
+        form = RemovePostForm(request.POST, instance=post)
+        if form.is_valid:
+            form.save()
+            return redirect('/postdetail/' + str(pk) + '/')
+    else:
+        form = RemovePostForm(instance=post)
     context = {
         'post':post,
         'alreadyReportedUsers': alreadyReportedUsers,
+        'form': form,
     }
     return render(request, 'rateMySchool/postDetail.html', context)
 

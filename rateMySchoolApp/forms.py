@@ -32,19 +32,6 @@ class UniversityRateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['ratedBody', 'post_type', 'postcontent', 'rate_stars']
-        # # post types
-        
-        # def __init__(self, *args, **kwargs):
-        #     super(UniversityRateForm, self).__init__(*args, **kwargs)
-        #     #post_types = ('General', 'Academic', 'Social', 'Security')
-        #     post_types = [('General', 'General'), ('Academic', 'Academic'), ('Social', 'Social'), ('Security', 'Security')]
-        #     #portfolios = [('pf 1', 'pf 1'), ('pf 2', 'pf 2'), ('pf 3', 'pf 3')]
-
-        #     self.fields['post_type'] = forms.ChoiceField(
-        #                 widget=forms.RadioSelect(),
-        #                 choices=post_types,
-        #                 required=False,
-        #                 )
 
 class EditUniversityRatePostForm(forms.ModelForm):
     class Meta:
@@ -65,3 +52,8 @@ class ReportPostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['reported']
+
+class RemovePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['removed']

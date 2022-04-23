@@ -66,9 +66,9 @@ class Post(models.Model):
     post_type = models.CharField(max_length=50,null=True, blank=True)
     # keep track of who reported!
     # may need to be updated!
-    postreportedUsers = models.ManyToManyField(Profile, null=True, blank=True)
-    upvote = models.ManyToManyField(Profile,related_name='upvote', null=True, blank=True)
-    downvote = models.ManyToManyField(Profile,related_name='downvote', null=True, blank=True)
+    postreportedUsers = models.ManyToManyField(Profile)
+    upvote = models.ManyToManyField(Profile,related_name='upvote')
+    downvote = models.ManyToManyField(Profile,related_name='downvote')
     reportedCount = models.IntegerField(default=0)
     # postNum = models.IntegerField()
     upvoteCount = models.IntegerField(default=0)
@@ -79,8 +79,9 @@ class Post(models.Model):
     ratedBody = models.ForeignKey(Universities, on_delete=models.CASCADE)
     raterUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    # add two values here
-    # bool: post edited?
-    # edited date: ?
+    # Auto reports and auto-remove
+    auto_reported = models.BooleanField(default=False)
+    removed = models.BooleanField(default=False)
+    profanity_prob = models.FloatField(default=0)
 
    

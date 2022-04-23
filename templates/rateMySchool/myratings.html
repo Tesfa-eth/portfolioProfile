@@ -16,6 +16,13 @@
             <tr><th><i>Content</i></th> <th>{{post.postcontent|safe|slice:":25" }}... </th></tr>
             <tr><th><i>Created on</i></th> <th> {{post.date_created}} </th></tr>
             <tr><th><i>Last modified on</i></th> <th> {{post.date_last_edited}} </th></tr>
+             
+            {%if post.removed%}
+                <tr><th><i>Status</i></th><th class="text-danger"> Removed </th></tr>
+            {%else%}
+                <tr><th><i>Status</i></th> <th> Maintained </th></tr>
+            {%endif%}
+            
             <tr><th><i>Report by users</i></th> <th> {{post.postreportedUsers.all.count}} </th></tr>
             <tr><th><i>Upvotes</i></th> <th> {{post.upvote.all.count}} </th></tr>
             <tr><th><i>DownVotes</i></th> <th>{{post.downvote.all.count}} </th></tr>
