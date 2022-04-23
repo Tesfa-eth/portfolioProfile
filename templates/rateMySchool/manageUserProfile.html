@@ -10,7 +10,9 @@
         <br>
         Last name: {{userProfile.lastName}}
         <br>
-        Bio: {{userProfile.bio}}
+        Username: {{userProfile.user}}
+        <br>
+        Bio: {{userProfile.bio|safe|slice:":25" }}...
         <br>
         Verified: {{userProfile.verified}}
         <br>

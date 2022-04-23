@@ -1,11 +1,43 @@
 {% extends 'partials/dashboardbase.html' %} {% load socialaccount %}
 {% block content %} 
 <div class="container" style="text-align: center; padding-top: 3%;">
-    <h1>{{ user.username }}'s ratings</h1>
-    {%for post in userPosts%}
-    
-    Name: {{post.ratedBody}} Rate: {{post.rate_stars}} Content: {{post.postcontent}} Upvotes: {{post.upvoteCount}} DownVotes: {{post.downvoteCount}}
-    <hr>
-    {%endfor%}
+    <h1>{{ user.username }}'s ratings report</h1>
 </div>
+    
+    {%for post in userPosts%}
+    <div class="row pt-3">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 shadow p-3">
+        <table>
+            <tr><th><i>Rated body</i></th><th>{{post.ratedBody}}</th></tr>
+            <tr><th><i>Rate stars</i></th><th>{{post.rate_stars}}</th></tr>
+            <tr><th><i>Rate type</i></th><th>{{post.post_type}}</th></tr>
+            <tr><th><i>Content</i></th> <th>{{post.postcontent|safe|slice:":25" }}... </th></tr>
+            <tr><th><i>Created on</i></th> <th> {{post.date_created}} </th></tr>
+            <tr><th><i>Last modified on</i></th> <th> {{post.date_last_edited}} </th></tr>
+             
+            {%if post.removed%}
+                <tr><th><i>Status</i></th><th class="text-danger"> Removed </th></tr>
+            {%else%}
+                <tr><th><i>Status</i></th> <th> Maintained </th></tr>
+            {%endif%}
+            
+            <tr><th><i>Report by users</i></th> <th> {{post.postreportedUsers.all.count}} </th></tr>
+            <tr><th><i>Upvotes</i></th> <th> {{post.upvote.all.count}} </th></tr>
+            <tr><th><i>DownVotes</i></th> <th>{{post.downvote.all.count}} </th></tr>
+        </table>
+        <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-8">
+        <a class="btn btn-outline-primary" style="font-size: 15px;margin-top:7px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+    </div>
+    </div>
+    {%endfor%}
 {% endblock content %}

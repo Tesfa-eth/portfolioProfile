@@ -1,0 +1,83 @@
+{%if averageAcademicRating%}
+Academic Rating: {{averageAcademicRating}}
+{%for post in universityAcademicRatePosts%}
+          {%if not post.raterUser.profile.blocked%}
+          <div class="border p-3 mt-3 mb-2 shadow" style="background-color:#9ea4e0;">
+                    
+            <div class="row pt-2 mb-2">
+              <div class="col-md-7">
+                <div style="color: white;display:inline;font-weight:bold;"> {{post.raterUser}}
+                    {%if post.raterUser.profile.verified%}
+                    <i class="fa-solid fa-circle-check"></i>
+                    {%endif%}
+                    </div> <b style="color: #E5E4E2;">badge points: {{post.raterUser.profile.bagdeValue}}</b>
+                {% if user.is_authenticated %}
+                    {%if post.raterUser.id == user.id%}
+                    <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
+                    {%endif%}
+                {%endif%}  
+                <br> 
+                {%if post.edited%}
+                <small>Last modified on: {{post.date_last_edited}} </small>
+                {%else%}
+                <small> {{post.date_created}}</small>
+                {%endif%}
+                </div>
+              
+              <div class="col-md-5">
+                <!--if else for number of stars goes here-->
+                <b style="color: #333B84;">Rating:</b> 
+                
+                <!--star ratings-->
+                {%if post.rate_stars == 1%}
+                <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
+                
+                {%elif post.rate_stars == 2%}
+                <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
+                {%elif post.rate_stars == 3%}
+                <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
+                {%elif post.rate_stars == 4%}
+                <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> 
+                {%elif post.rate_stars == 5%}
+                <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> 
+                
+                {%endif%}
+                
+                {{post.rate_stars}}/5
+              </div>
+            </div>
+            {{post.postcontent}}
+            <!--bottom of individual rating. Consists upvote and downvote-->
+            <div class="row pt-3">
+              <div class="col-md-3">
+                
+              </div>
+              <div class="col-md-3">
+                <!--one is button and the other is int-->
+              </div>
+              <div class="col-md-6">
+                <!--one is button and the other is int-->
+                {%if currentUserProfile not in post.upvote.all%}
+                <a class="btn btn-outline-primary" style="font-size: 12px;"  type="submit" href="{%url 'upvote' post.id%}">{{post.upvote.all.count}} upvote</a>
+                {%else%}
+                <a class="btn btn-primary" style="font-size: 12px;"  type="submit" href="{%url 'upvote' post.id%}">{{post.upvote.all.count}} upvote</a>
+                {%endif%}
+                {%if currentUserProfile not in post.downvote.all%}
+                <a class="btn btn-outline-danger" style="font-size: 12px;" type="submit" href="{%url 'downvote' post.id%}">{{post.downvote.all.count}} downvote</a>
+                {%else%}
+                <a class="btn btn-danger" style="font-size: 12px;" type="submit" href="{%url 'downvote' post.id%}">{{post.downvote.all.count}} downvote</a>
+                {%endif%}
+                {%if currentUserProfile not in post.postreportedUsers.all%}
+                <a class="btn btn-outline-dark" style="font-size: 12px;" href="{%url 'reportconfirmation' post.id%}">Report</a>
+                {%else%}
+                <a class="btn btn-dark" style="font-size: 12px;" href="{%url 'reportconfirmation' post.id%}">Reported</a>
+                {%endif%} 
+              </div>
+            </div>
+
+          </div>
+          {%endif%}
+        {%endfor%}
+      {%else%}
+        {% include "rateMySchool/noRatings.html" %}
+      {%endif%}

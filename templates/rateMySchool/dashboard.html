@@ -4,7 +4,7 @@
 
 <div class="container" style="text-align: center; padding-top: 3%;">
   {%if userprofile.blocked%}
-  <h3>You have violated community guidelines. Hence, you have been blocked from contributing to Rate Academia.</h3>
+  <h3>You have violated community guidelines. Hence, you are blocked from contributing to Rate Academia and your posts have been removed.</h3>
   {% elif user.is_authenticated%}
     <h1>Rate Academia</h1>
     <p>Welcome {{ user.username }}, who would you like to rate today?</p>
@@ -12,7 +12,7 @@
       <form method="POST">
             {% csrf_token %}
             {{ form|crispy }}
-            <input class="btn btn-success btn-block" type="submit" value="Submit">
+            <input class="btn btn-success btn-block mt-2 mb-3" type="submit" value="Submit">
       </form>
   {% else %}
     <!-- GitHub button starts here -->

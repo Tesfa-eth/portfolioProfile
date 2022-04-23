@@ -2,17 +2,17 @@
 {% block content %}
 
 {%if user.is_staff%}
-<div class="row mt-3 pt-3">
-    <div class="col-md-3">
+<div class="row pt-3 mt-3">
+    <div class="col-md-2">
     </div>
-    <div class="col-md-6 shadow">
-        <h1> Post management </h1>
+    <div class="col-md-8 shadow">
+        <h1> Posts report (internal use only)</h1>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
     </div>
     </div>
 </div>
-<div class="row mt-1">
+<div class="row mb-3 mt-3 pt-2">
     <div class="col-md-2">
     </div>
     <div class="col-md-8">
@@ -21,28 +21,22 @@
         <th>User</th>
         <th>Post Content</th>
         <th>Reported</th>
+        <th>Profanity</th>
         <th>Upvotes</th>
         <th>DownVotes</th>
     
-    </div>
-    <div class="col-md-2">
-    </div>
-    </div>
-</div>
+    </tr>
 {%for post in posts%}
-<div class="row mt-1 mb-3">
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-8">
-          
         <tr>
             <th><a href="{%url 'manageuser' post.raterUser.id%}"> {{post.raterUser}}</a></th>
-            <th><a href="{%url 'updatepost' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
-            <th>{{post.reportedCount}}</th>
-            <th>{{post.upvoteCount}}</th>
-            <th>{{post.downvoteCount}}</th>
+            <th><a href="{%url 'postdetail' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
+            <th>{{post.postreportedUsers.all.count}}</th>
+            <th>{{post.profanity_prob}}%</th>
+            <th>{{post.upvote.all.count}}</th>
+            <th>{{post.downvote.all.count}}</th>
             <!--if the user is already blocked or not-->
         </tr>
+        
         
         </div>
         <div class="col-md-2">

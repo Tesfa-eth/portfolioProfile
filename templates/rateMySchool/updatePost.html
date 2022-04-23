@@ -7,11 +7,15 @@
         </div>
         <div class="col-md-6 border">
           <h1>Update Post {{test}}</h1>
+          {%if not post.removed%}
           <form method="POST">
             {% csrf_token %}
             {{form|crispy}}
             <input class="btn btn-info btn-block" type="submit" value="updatePost">
          </form>
+         {%else%}
+         <h1>This post has been removed!</h1>
+         {%endif%}
         </div>
         <div class="col-md-3">
         </div>

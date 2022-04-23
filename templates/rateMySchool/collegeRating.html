@@ -12,6 +12,7 @@
       <input action="{% url 'collegeRating' %}"  name='collegeQuery' class="form-control me-2" id="uni_search" type="search" placeholder="Search the university here" aria-label="Search">
       <button class="btn btn-outline-primary" type="submit">Search</button>
     </form>
+    
 </div>
   
 {%endblock%}
@@ -59,79 +60,50 @@
   </div>
 </div>
 {%endblock%}
-
+{%block tabPanel%}
+{%endblock%}
 
 <!--Individual duplicate ratings-->
-{%block indivRating%}
+  {%block indivRating%}
+  {%if search%}
+      
+      <!--individual rating 2-->
+      <!--Tab panel start (SHOULD LATER BE TAKEN TO base.html)-->
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="academic-tab" data-bs-toggle="tab" data-bs-target="#academic" type="button" role="tab" aria-controls="academic" aria-selected="false">Academic</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">Security</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="gneral-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivUniRatings.html'%}
+          
+        </div>
+        <div class="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="profile-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivAcademicRatings.html'%}
+        </div>
+        <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="contact-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivSocialRatings.html'%}
+        </div>
+        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="contact-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivSecurityRatings.html'%}
+        </div>
+      </div>
   
-    <!--individual rating 2-->
+  {%endif%}
+  {%endblock%}
 
-    {%for post in posts%}
-    <div class="border p-3 mt-3 mb-2 shadow" style="background-color:#9ea4e0;">
-              
-      <div class="row pt-2 mb-2">
-        <div class="col-md-6">
-          <div style="color: white;display:inline;font-weight:bold;"> {{post.raterUser}}
-            {%if post.raterUser.profile.verified%}
-            <i class="fa-solid fa-circle-check"></i>
-            {%endif%}
-           </div> <b style="color: #E5E4E2;">badge points: {{post.raterUser.profile.bagdeValue}}</b>
-           {% if user.is_authenticated %}
-              {%if post.raterUser.id == user.id%}
-              <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
-              {%endif%}
-            {%endif%}  
-            <br> 
-            {%if post.edited%}
-            <small>Last modified on: {{post.date_last_edited}} </small>
-            {%else%}
-            <small> {{post.date_created}}</small>
-            {%endif%}
-          </div>
-        
-        <div class="col-md-6">
-          <!--if else for number of stars goes here-->
-          <b style="color: #333B84;">Rating: </b> 
-          
-          <!--star ratings-->
-          {%if post.rate_stars == 1%}
-          <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
-          
-          {%elif post.rate_stars == 2%}
-          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
-          {%elif post.rate_stars == 3%}
-          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> <i class="fa-regular fa-star"></i> 
-          {%elif post.rate_stars == 4%}
-          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star"></i> 
-          {%elif post.rate_stars == 5%}
-          <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> 
-          
-          {%endif%}
-          
-          {{post.rate_stars}}/5
-
-        </div>
-      </div>
-
-      {{post.postcontent}}
-      <!--bottom of individual rating. Consists upvote and downvote-->
-      <div class="row pt-3">
-        <div class="col-md-4">
-          
-        </div>
-        <div class="col-md-4">
-          <!--one is button and the other is int-->
-        </div>
-        <div class="col-md-4">
-          <!--one is button and the other is int-->
-          <button class="btn btn-outline-primary" style="font-size: 12px;"  type="submit">{{post.upvoteCount}} upvote</button>
-          <button class="btn btn-outline-danger" style="font-size: 12px;" type="submit">{{post.downvoteCount}} downvote</button>
-             
-        </div>
-      </div>
-
-    </div>
-    {%endfor%}
-    
-{%endblock%}
 </div>
