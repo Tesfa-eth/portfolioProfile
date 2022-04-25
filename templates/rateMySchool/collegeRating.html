@@ -102,8 +102,59 @@
         {%include 'rateMySchool/indivSecurityRatings.html'%}
         </div>
       </div>
+    </div>
   
   {%endif%}
-  {%endblock%}
 
-</div>
+
+<script type="text/javascript">
+  $(document).on('click', '#like-button', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "like"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
+        //console.log(json)
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+
+  $(document).on('click', '#dislike-button', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "dislike"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
+        console.log(json)
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+</script>
+  {%endblock%}

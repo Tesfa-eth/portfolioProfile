@@ -1,4 +1,5 @@
 import re
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Universities, Post
@@ -384,3 +385,57 @@ def downvote(request, pk):
     if currentUserProfile in alreadyUpvotedUsers:
         downvotedPost.upvote.remove(currentUserProfile)
     return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def like(request):
+    if request.POST.get('action') == 'post':
+        result = ''
+        likecolor = '#0275d8' # bootstrap primary
+        id = int(request.POST.get('postid')) # post id
+        post = Post.objects.get(id=id)
+        alreadyUpvotedUsers = post.upvote.all()
+        alreadyDownvotedUsers = post.downvote.all()
+        currentUserProfile = Profile.objects.filter(user=request.user)[0]
+        
+        if currentUserProfile not in alreadyUpvotedUsers:
+            post.upvote.add(currentUserProfile)
+            likecolor = 'white'
+        if currentUserProfile in alreadyUpvotedUsers:
+            post.upvote.remove(currentUserProfile)
+            likecolor = '#0275d8'
+        if currentUserProfile in alreadyDownvotedUsers:
+            post.downvote.remove(currentUserProfile)
+            likecolor = '#0275d8'
+        
+        # post.save()
+        dislikecount = post.downvote.all().count()
+        likecount = post.upvote.all().count()
+        #print("dislike result here: ", result, "post content: ", post.postcontent)
+
+        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount, 'likecolor': likecolor,})
+
+
+@login_required
+def dislike(request):
+    if request.POST.get('action') == 'post':
+        #result = ''
+        likecolor = '#0275d8' # bootstrap primary
+        id = int(request.POST.get('postid')) # post id
+        post = Post.objects.get(id=id)
+        alreadyUpvotedUsers = post.upvote.all()
+        alreadyDownvotedUsers = post.downvote.all()
+        currentUserProfile = Profile.objects.filter(user=request.user)[0]
+
+        if currentUserProfile not in alreadyDownvotedUsers:
+            post.downvote.add(currentUserProfile)
+        if currentUserProfile in alreadyDownvotedUsers:
+            post.downvote.remove(currentUserProfile)
+        if currentUserProfile in alreadyUpvotedUsers:
+            post.upvote.remove(currentUserProfile)
+
+        dislikecount = post.downvote.all().count()
+        likecount = post.upvote.all().count()
+        #print("dislike result here: ", result, "post content: ", post.postcontent)
+
+        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount, 'likecolor': likecolor,})
