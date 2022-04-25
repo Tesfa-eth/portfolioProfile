@@ -102,8 +102,293 @@
         {%include 'rateMySchool/indivSecurityRatings.html'%}
         </div>
       </div>
+    </div>
   
   {%endif%}
-  {%endblock%}
 
-</div>
+
+<script type="text/javascript">
+  $(document).on('click', '#like-button', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "like"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        // also update the values over the social section
+        if(document.getElementById(pk+'dislikesocial')){
+          document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+          document.getElementById('social'+pk).innerHTML = json['likecount']
+        }
+        // also update the values over the security section
+        if(document.getElementById(pk+'dislikesecurity')){
+          document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+          document.getElementById('security'+pk).innerHTML = json['likecount']
+        }
+
+        // also update the values over the academic section
+        if(document.getElementById(pk+'dislikeacademic')){
+          document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+          document.getElementById('academic'+pk).innerHTML = json['likecount']
+        }
+        
+        $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['downvotechanges'] == true){
+          $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
+        //console.log(json)
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+
+  $(document).on('click', '#dislike-button', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "dislike"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        // also update the values over the social section
+        if(document.getElementById(pk+'dislikesocial')){
+          document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+          document.getElementById('social'+pk).innerHTML = json['likecount']
+        }
+        // also update the values over the security section
+        if(document.getElementById(pk+'dislikesecurity')){
+          document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+          document.getElementById('security'+pk).innerHTML = json['likecount']
+        }
+
+        // also update the values over the academic section
+        if(document.getElementById(pk+'dislikeacademic')){
+          document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+          document.getElementById('academic'+pk).innerHTML = json['likecount']
+        }
+
+        $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        console.log("conditional");
+        if(json['upvotechanges'] == true){
+          console.log("changed");
+          $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
+        console.log(json)
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+  // social section upvote
+  $(document).on('click', '#like-button-social', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "like"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+        document.getElementById('social'+pk).innerHTML = json['likecount']
+        // also update the one over the general section
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        $('#socialupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['downvotechanges'] == true){
+          $('#socialdownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+  // social down vote
+  $(document).on('click', '#dislike-button-social', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "dislike"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+        document.getElementById('social'+pk).innerHTML = json['likecount']
+        // also update the one over the general section
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        $('#socialdownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['upvotechanges'] == true){
+          $('#socialupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+
+
+  // security section upvote
+  $(document).on('click', '#like-button-security', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "like"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+        document.getElementById('security'+pk).innerHTML = json['likecount']
+        // also update the one over the general section
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        $('#securityupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['downvotechanges'] == true){
+          $('#securitydownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+  // social down vote
+  $(document).on('click', '#dislike-button-security', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "dislike"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+        document.getElementById('security'+pk).innerHTML = json['likecount']
+        // also update the one over the general section
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        $('#securitydownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['upvotechanges'] == true){
+          $('#securityupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+
+  // academic section upvote
+  $(document).on('click', '#like-button-academic', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "like"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+        document.getElementById('academic'+pk).innerHTML = json['likecount']
+        // also update the one over the general section
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        $('#academicupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['downvotechanges'] == true){
+          $('#academicdownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+  // social down vote
+  $(document).on('click', '#dislike-button-academic', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "dislike"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+        document.getElementById('academic'+pk).innerHTML = json['likecount']
+        // also update the one over the general section
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        $('#academicdownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['upvotechanges'] == true){
+          $('#academicupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+</script>
+  {%endblock%}
