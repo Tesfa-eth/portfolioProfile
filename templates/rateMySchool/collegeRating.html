@@ -123,6 +123,7 @@
       success: function(json){
         document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
         document.getElementById(pk).innerHTML = json['likecount']
+        $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
         //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
         //console.log(json)
       },
@@ -148,6 +149,7 @@
       success: function(json){
         document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
         document.getElementById(pk).innerHTML = json['likecount']
+        $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
         //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
         console.log(json)
       },

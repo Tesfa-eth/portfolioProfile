@@ -55,10 +55,19 @@
               </div>
               <div class="col-md-6">
                 <!--one is button and the other is int-->
-                <a class="btn btn-outline-primary" style="font-size: 12px;" id="like-button" value="{{post.id}}"><span class="" id="{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-regular fa-thumbs-up"></i></a>
-              <!--<a class="btn btn-outline-primary" style="font-size: 12px;"  type="submit" href="{%url 'upvote' post.id%}">{{post.upvote.all.count}} upvote</a> -->
-                
-                <a class="btn btn-outline-danger" style="font-size: 12px;" id="dislike-button" value="{{post.id}}"><span class="" id="{{post.id}}dislike">{{post.downvote.all.count}}</span>  <i class="fa-regular fa-thumbs-down"></i></a>
+                {%if currentUserProfile not in post.upvote.all%}
+                <a class="btn btn-outline-primary" style="font-size: 12px;" id="like-button" value="{{post.id}}"><span class="" id="{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-regular fa-thumbs-up" id="upvoteicon{{post.id}}"></i></a>
+                {%else%}
+                <a class="btn btn-outline-primary" style="font-size: 12px;" id="like-button" value="{{post.id}}"><span class="" id="{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-solid fa-thumbs-up" id="upvoteicon{{post.id}}"></i></a>
+                {%endif%}
+                <!--<a class="btn btn-outline-primary" style="font-size: 12px;"  type="submit" href="{%url 'upvote' post.id%}">{{post.upvote.all.count}} upvote</a> -->
+                {%if currentUserProfile not in post.downvote.all%}
+                <a class="btn btn-outline-danger" style="font-size: 12px;" id="dislike-button" value="{{post.id}}"><span class="" id="{{post.id}}dislike">{{post.downvote.all.count}}</span>  <i id="downvoteicon{{post.id}}" class="fa-regular fa-thumbs-down"></i></a>
+                {%else%}
+                <a class="btn btn-outline-danger" style="font-size: 12px;" id="dislike-button" value="{{post.id}}"><span class="" id="{{post.id}}dislike">{{post.downvote.all.count}}</span>  <i id="downvoteicon{{post.id}}" class="fa-solid fa-thumbs-down"></i></a>
+                {%endif%}
+               
+               
                <!-- <a class="btn btn-primary" style="font-size: 12px;"  type="submit" href="{%url 'upvote' post.id%}">{{post.upvote.all.count}} upvote</a> -->
                 
                 <!--
