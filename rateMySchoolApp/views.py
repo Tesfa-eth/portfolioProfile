@@ -391,6 +391,7 @@ def downvote(request, pk):
 def like(request):
     if request.POST.get('action') == 'post':
         result = ''
+        downvotechanges = False # checks if downvote gets updated
         likecolor = '#0275d8' # bootstrap primary
         id = int(request.POST.get('postid')) # post id
         post = Post.objects.get(id=id)
@@ -407,19 +408,22 @@ def like(request):
         if currentUserProfile in alreadyDownvotedUsers:
             post.downvote.remove(currentUserProfile)
             likecolor = '#0275d8'
+            downvotechanges = True
         
         # post.save()
         dislikecount = post.downvote.all().count()
         likecount = post.upvote.all().count()
         #print("dislike result here: ", result, "post content: ", post.postcontent)
 
-        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount, 'likecolor': likecolor,})
+        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'downvotechanges':downvotechanges, 'likecolor': likecolor,})
 
 
 @login_required
 def dislike(request):
     if request.POST.get('action') == 'post':
         #result = ''
+        upvotechanges = False # upvote changes
         likecolor = '#0275d8' # bootstrap primary
         id = int(request.POST.get('postid')) # post id
         post = Post.objects.get(id=id)
@@ -433,9 +437,11 @@ def dislike(request):
             post.downvote.remove(currentUserProfile)
         if currentUserProfile in alreadyUpvotedUsers:
             post.upvote.remove(currentUserProfile)
+            upvotechanges = True
 
         dislikecount = post.downvote.all().count()
         likecount = post.upvote.all().count()
         #print("dislike result here: ", result, "post content: ", post.postcontent)
 
-        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount, 'likecolor': likecolor,})
+        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'upvotechanges':upvotechanges, 'likecolor': likecolor,})
