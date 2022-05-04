@@ -163,6 +163,9 @@ def college_rating(request):
     }
     return render(request, 'rateMySchool/collegeRating.html', context)
 
+def professor_rating(request):
+    return render(request, 'rateMySchool/professorRating.html')
+
 def profanityLabler(prob, prelable):
     """lables what should be done with the profanity probability result"""
     result = ''
