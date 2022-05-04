@@ -257,6 +257,17 @@ def updatePost(request, pk):
         if form.is_valid:
             obj = form.save(commit=False)
             obj.edited = True
+            #print(profanityProb(obj.postcontent), "post content")
+            prob, prelable = profanityProb(obj.postcontent)
+            profanityResult = profanityLabler(prob, prelable)
+            obj.profanity_prob = round(prob*100, 4)
+            if profanityResult == 'report':
+                obj.auto_reported = True
+            elif profanityResult == 'reportAndremove':
+                obj.auto_reported = True
+                obj.removed = True
+                obj.save()
+                return redirect('/updatePost/' + str(pk) + '/')
             obj.save() 
             return redirect('/myratings/')
     else:

@@ -84,4 +84,17 @@ class Post(models.Model):
     removed = models.BooleanField(default=False)
     profanity_prob = models.FloatField(default=0)
 
+
+class PostStatus(models.Model):
+    """Keep track of the status of each post"""
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_last_edited = models.DateTimeField(auto_now= True) # last edited
+    edited = models.BooleanField(default=False)
+    reported = models.BooleanField(default=False) # post reported
+
+    auto_reported = models.BooleanField(default=False)
+    removed = models.BooleanField(default=False)
+    profanity_prob = models.FloatField(default=0) # also needs to be updated when a post in edited
+
+
    
