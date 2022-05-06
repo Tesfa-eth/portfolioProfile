@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Universities, Profile, Post
+from .models import Universities, Profile, Post, Professor, PostProfFeedback
 # Register your models here.
 
 # customize post model
@@ -10,4 +10,6 @@ class PostAdmin(admin.ModelAdmin):
 # add the model I just imported to the adminstrative panel
 admin.site.register(Post, PostAdmin)
 admin.site.register(Universities)
+admin.site.register(PostProfFeedback)
+admin.site.register(Professor)
 admin.site.register(Profile)

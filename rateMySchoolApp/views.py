@@ -2,7 +2,7 @@ import re
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Universities, Post
+from .models import PostProfFeedback, Professor, Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
 from django.db.models import Count, Q
 from .forms import EditUserProfile, ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm, RemovePostForm
@@ -164,7 +164,22 @@ def college_rating(request):
     return render(request, 'rateMySchool/collegeRating.html', context)
 
 def professor_rating(request):
-    return render(request, 'rateMySchool/professorRating.html')
+    test = ''
+    professorRatePosts = professor = ''
+    professors = Professor.objects.all()
+    if 'professorQuery' in request.GET:
+        searchedprof = request.GET['professorQuery']
+        #test = searchedprof
+        professor = Professor.objects.filter(name__icontains=searchedprof)[0]
+        professorRatePosts = PostProfFeedback.objects.filter(ratedProf=professor).order_by('-rate_stars')
+
+    context = {
+        'test': test,
+        'professors': professors, # for search recommendation
+        'professor': professor,
+        'professorRatePosts': professorRatePosts,
+    }
+    return render(request, 'rateMySchool/professorRating.html', context)
 
 def profanityLabler(prob, prelable):
     """lables what should be done with the profanity probability result"""

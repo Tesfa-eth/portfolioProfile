@@ -1,7 +1,7 @@
 {%extends 'partials/base.html'%} {% load socialaccount %}
 
 {%block header_container%}
-    <h2 style="color: #333B84; text-align: center;">Professor Ratings</h2>
+    <h2 style="color: #333B84; text-align: center;">Professor Ratings {{test}}</h2>
 {%endblock%}
 
 {%block search%}
@@ -9,10 +9,67 @@
 <div>
     <form class="d-flex" method="get">
       {% csrf_token %}
-      <input action="{% url 'collegeRating' %}"  name='collegeQuery' class="form-control me-2" id="uni_search" type="search" placeholder="Search the university here" aria-label="Search">
+      <input action="{% url 'collegeRating' %}"  name='professorQuery' class="form-control me-2" id="prof_search" type="search" placeholder="Search a professor here" aria-label="Search">
       <button class="btn btn-outline-primary" type="submit">Search</button>
     </form>
-    
+</div>
+
+<div class="container">
+  <div class="row pt-3">
+    <div class="col-md-6">
+      <h3 style="color: #333B84; font-weight: bold;">
+      {{professor.name}}
+      </h3>
+      <div class="half-content" id="half" style="text-align:justify;">{{professor.bio}} </div>
+    </div>
+      <div class="col-md-6">
+        <h4>Overall ratings (3.6)</h4>
+      </div>
+  </div>
 </div>
   
+
+{%include 'rateMySchool/searchProfRecom.html'%}
+{%endblock%}
+
+{%block indivRating%}
+      
+      <!--individual rating 2-->
+      <!--Tab panel start (SHOULD LATER BE TAKEN TO base.html)-->
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="academic-tab" data-bs-toggle="tab" data-bs-target="#academic" type="button" role="tab" aria-controls="academic" aria-selected="false">Academic</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">Security</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="gneral-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivProfRatings.html'%}
+          
+        </div>
+        <div class="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="profile-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivAcademicRatings.html'%}
+        </div>
+        <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="contact-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivSocialRatings.html'%}
+        </div>
+        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="contact-tab">
+        <!--The individual ratings display in a separate html file-->
+        {%include 'rateMySchool/indivSecurityRatings.html'%}
+        </div>
+      </div>
+    </div>
+  
+
 {%endblock%}
