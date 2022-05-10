@@ -1,0 +1,40 @@
+{% load crispy_forms_tags %}
+<div class="row pt-3">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 shadow p-3">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
+            </li>
+            <li class="nav-item" role="presentation">
+            <button class="nav-link" id="academic-tab" data-bs-toggle="tab" data-bs-target="#academic" type="button" role="tab" aria-controls="academic" aria-selected="false">Academic</button>
+            </li>
+        </ul>
+       <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="gneral-tab">
+        <!--College rating form-->
+        <h2>College rating form</h2>
+        <hr>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-success btn-block mt-2 mb-3" type="submit" value="Submit">
+        </form>
+            
+        </div>
+        <div class="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="profile-tab">
+        <!--Professor rating form-->
+        <h2>Professor rating form</h2>
+        <hr>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-success btn-block mt-2 mb-3" type="submit" value="Submit">
+        </form>
+        </div>
+    </div> 
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
