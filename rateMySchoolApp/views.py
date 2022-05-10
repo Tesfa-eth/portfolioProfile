@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import PostProfFeedback, Professor, Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
 from django.db.models import Count, Q
-from .forms import EditUserProfile, ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm, RemovePostForm
+from .forms import EditUserProfile, ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm, RemovePostForm, ProfessorRateForm
 import wikipediaapi
 import logging
 
@@ -207,6 +207,23 @@ def dashboard(request):
         userprofile = ''
     if request.method == 'POST':
         form = UniversityRateForm(request.POST)
+        formProf = ProfessorRateForm(request.POST)
+
+        if formProf.is_valid():
+            obj = formProf.save(commit=False)
+            obj.raterUser_id = request.user.id # connect it to the user
+            #print(profanityProb(obj.postcontent), "post content")
+            prob, prelable = profanityProb(obj.postcontent)
+            profanityResult = profanityLabler(prob, prelable)
+            obj.profanity_prob = round(prob*100, 4)
+            if profanityResult == 'report':
+                obj.auto_reported = True
+            elif profanityResult == 'reportAndremove':
+                obj.auto_reported = True
+                obj.removed = True
+            obj.save() 
+            return redirect('/dashboard')
+            
         if form.is_valid():
             obj = form.save(commit=False)
             obj.raterUser_id = request.user.id # connect it to the user
@@ -223,9 +240,11 @@ def dashboard(request):
             return redirect('/dashboard')
     else:
         form = UniversityRateForm()
+        formProf = ProfessorRateForm()
     
     context = {
         'form': form,
+        'formProf': formProf,
         'userprofile': userprofile,
     }
     return render(request, 'rateMySchool/dashboard.html', context)
