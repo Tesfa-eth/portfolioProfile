@@ -1,0 +1,69 @@
+<script type="text/javascript">
+  // upvote and down vote instant changes for professor ratings.
+  $(document).on('click', '#prof-like-button', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "proflike"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        // also update the values over the social section
+       
+ 
+        $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+        if(json['downvotechanges'] == true){
+          $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
+        //console.log(json)
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+
+  $(document).on('click', '#prof-dislike-button', function(e){
+    //confirm('confirm like?');
+    e.preventDefault()
+    var pk = $(this).attr('value');
+    $.ajax({
+      type: 'POST',
+      url: '{%url "profdislike"%}',
+      data: {
+        postid: pk,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+        document.getElementById(pk).innerHTML = json['likecount']
+        // also update the values over the social section
+       
+
+        $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        console.log("conditional");
+        if(json['upvotechanges'] == true){
+          console.log("changed");
+          $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        }
+        //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
+        console.log(json)
+      },
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+
+  
+</script>

@@ -167,6 +167,8 @@ def professor_rating(request):
     test = ''
     professorRatePosts = professor = ''
     professors = Professor.objects.all()
+    if request.user.is_authenticated:
+        currentUserProfile = Profile.objects.filter(user=request.user)[0]
     if 'professorQuery' in request.GET:
         searchedprof = request.GET['professorQuery']
         #test = searchedprof
@@ -178,6 +180,7 @@ def professor_rating(request):
         'professors': professors, # for search recommendation
         'professor': professor,
         'professorRatePosts': professorRatePosts,
+        'currentUserProfile':currentUserProfile,
     }
     return render(request, 'rateMySchool/professorRating.html', context)
 
@@ -378,42 +381,42 @@ def reportConfirmation(request, pk):
     return render(request, 'rateMySchool/reportConfirmation.html', context)
 
 
-@login_required
-def upvote(request, pk):
-    upvotedPost = Post.objects.get(id=pk)
-    alreadyUpvotedUsers = upvotedPost.upvote.all()
-    alreadyDownvotedUsers = upvotedPost.downvote.all()
-    currentUserProfile = Profile.objects.filter(user=request.user)[0]
+# @login_required
+# def upvote(request, pk):
+#     upvotedPost = Post.objects.get(id=pk)
+#     alreadyUpvotedUsers = upvotedPost.upvote.all()
+#     alreadyDownvotedUsers = upvotedPost.downvote.all()
+#     currentUserProfile = Profile.objects.filter(user=request.user)[0]
 
-    # if request.method == 'POST':
-    # update the reported to true!
-    if currentUserProfile not in alreadyUpvotedUsers:
-        upvotedPost.upvote.add(currentUserProfile)
-    if currentUserProfile in alreadyUpvotedUsers:
-        upvotedPost.upvote.remove(currentUserProfile)
-    if currentUserProfile in alreadyDownvotedUsers:
-        upvotedPost.downvote.remove(currentUserProfile)
-    next = request.POST.get('next', '/')
-    print(next)
-    return redirect(request.META.get('HTTP_REFERER'))
-    #return redirect(request.META.get('HTTP_REFERER'))
+#     # if request.method == 'POST':
+#     # update the reported to true!
+#     if currentUserProfile not in alreadyUpvotedUsers:
+#         upvotedPost.upvote.add(currentUserProfile)
+#     if currentUserProfile in alreadyUpvotedUsers:
+#         upvotedPost.upvote.remove(currentUserProfile)
+#     if currentUserProfile in alreadyDownvotedUsers:
+#         upvotedPost.downvote.remove(currentUserProfile)
+#     next = request.POST.get('next', '/')
+#     print(next)
+#     return redirect(request.META.get('HTTP_REFERER'))
+#     #return redirect(request.META.get('HTTP_REFERER'))
 
-@login_required
-def downvote(request, pk):
-    downvotedPost = Post.objects.get(id=pk)
-    alreadyUpvotedUsers = downvotedPost.upvote.all()
-    alreadyDownvotedUsers = downvotedPost.downvote.all()
-    currentUserProfile = Profile.objects.filter(user=request.user)[0]
+# @login_required
+# def downvote(request, pk):
+#     downvotedPost = Post.objects.get(id=pk)
+#     alreadyUpvotedUsers = downvotedPost.upvote.all()
+#     alreadyDownvotedUsers = downvotedPost.downvote.all()
+#     currentUserProfile = Profile.objects.filter(user=request.user)[0]
 
-    # if request.method == 'POST':
-    # update the reported to true!
-    if currentUserProfile not in alreadyDownvotedUsers:
-        downvotedPost.downvote.add(currentUserProfile)
-    if currentUserProfile in alreadyDownvotedUsers:
-        downvotedPost.downvote.remove(currentUserProfile)
-    if currentUserProfile in alreadyUpvotedUsers:
-        downvotedPost.upvote.remove(currentUserProfile)
-    return redirect(request.META.get('HTTP_REFERER'))
+#     # if request.method == 'POST':
+#     # update the reported to true!
+#     if currentUserProfile not in alreadyDownvotedUsers:
+#         downvotedPost.downvote.add(currentUserProfile)
+#     if currentUserProfile in alreadyDownvotedUsers:
+#         downvotedPost.downvote.remove(currentUserProfile)
+#     if currentUserProfile in alreadyUpvotedUsers:
+#         downvotedPost.upvote.remove(currentUserProfile)
+#     return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required
@@ -456,6 +459,65 @@ def dislike(request):
         likecolor = '#0275d8' # bootstrap primary
         id = int(request.POST.get('postid')) # post id
         post = Post.objects.get(id=id)
+        alreadyUpvotedUsers = post.upvote.all()
+        alreadyDownvotedUsers = post.downvote.all()
+        currentUserProfile = Profile.objects.filter(user=request.user)[0]
+
+        if currentUserProfile not in alreadyDownvotedUsers:
+            post.downvote.add(currentUserProfile)
+        if currentUserProfile in alreadyDownvotedUsers:
+            post.downvote.remove(currentUserProfile)
+        if currentUserProfile in alreadyUpvotedUsers:
+            post.upvote.remove(currentUserProfile)
+            upvotechanges = True
+
+        dislikecount = post.downvote.all().count()
+        likecount = post.upvote.all().count()
+        #print("dislike result here: ", result, "post content: ", post.postcontent)
+
+        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'upvotechanges':upvotechanges, 'likecolor': likecolor,})
+
+
+@login_required
+def proflike(request):
+    if request.POST.get('action') == 'post':
+        downvotechanges = False # checks if downvote gets updated
+        likecolor = '#0275d8' # bootstrap primary
+        id = int(request.POST.get('postid')) # post id
+        post = PostProfFeedback.objects.get(id=id)
+        alreadyUpvotedUsers = post.upvote.all()
+        alreadyDownvotedUsers = post.downvote.all()
+        currentUserProfile = Profile.objects.filter(user=request.user)[0]
+        
+        if currentUserProfile not in alreadyUpvotedUsers:
+            post.upvote.add(currentUserProfile)
+            likecolor = 'white'
+        if currentUserProfile in alreadyUpvotedUsers:
+            post.upvote.remove(currentUserProfile)
+            likecolor = '#0275d8'
+        if currentUserProfile in alreadyDownvotedUsers:
+            post.downvote.remove(currentUserProfile)
+            likecolor = '#0275d8'
+            downvotechanges = True
+        
+        # post.save()
+        dislikecount = post.downvote.all().count()
+        likecount = post.upvote.all().count()
+        #print("dislike result here: ", result, "post content: ", post.postcontent)
+
+        return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'downvotechanges':downvotechanges, 'likecolor': likecolor,})
+
+
+@login_required
+def profdislike(request):
+    if request.POST.get('action') == 'post':
+        #result = ''
+        upvotechanges = False # upvote changes
+        likecolor = '#0275d8' # bootstrap primary
+        id = int(request.POST.get('postid')) # post id
+        post = PostProfFeedback.objects.get(id=id)
         alreadyUpvotedUsers = post.upvote.all()
         alreadyDownvotedUsers = post.downvote.all()
         currentUserProfile = Profile.objects.filter(user=request.user)[0]

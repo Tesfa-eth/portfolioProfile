@@ -17,9 +17,11 @@ urlpatterns = [
     path('manageuser/<int:pk>/', views.manageUserProfile, name='manageuser'),
     path('reportconfirmation/<int:pk>/', views.reportConfirmation, name='reportconfirmation'),
     path('postdetail/<int:pk>/', views.postDetail, name='postdetail'),
-    path('upvote/<int:pk>/', views.upvote, name='upvote'),
-    path('downvote/<int:pk>/', views.downvote, name='downvote'),
+    #path('upvote/<int:pk>/', views.upvote, name='upvote'),
+    #path('downvote/<int:pk>/', views.downvote, name='downvote'),
     path('like', views.like, name='like'), # new
-    path('dislike', views.dislike, name='dislike') # new
+    path('dislike', views.dislike, name='dislike'), # new
+    path('proflike', views.proflike, name='proflike'), # new
+    path('profdislike', views.profdislike, name='profdislike') # new
 
 ]

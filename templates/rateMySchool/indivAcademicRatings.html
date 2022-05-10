@@ -62,7 +62,7 @@ Academic Rating: {{averageAcademicRating}}
                 {%else%}
                 <a class="btn btn-outline-primary" style="font-size: 14px;" id="like-button-academic" value="{{post.id}}"><span class="" id="academic{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-solid fa-thumbs-up" id="academicupvoteicon{{post.id}}"></i></a>
                 {%endif%}
-                <!--<a class="btn btn-outline-primary" style="font-size: 12px;"  type="submit" href="{%url 'upvote' post.id%}">{{post.upvote.all.count}} upvote</a> -->
+
                 {%if currentUserProfile not in post.downvote.all%}
                 <a class="btn btn-outline-danger" style="font-size: 14px;" id="dislike-button-academic" value="{{post.id}}"><span class="" id="{{post.id}}dislikeacademic">{{post.downvote.all.count}}</span>  <i id="academicdownvoteicon{{post.id}}" class="fa-regular fa-thumbs-down"></i></a>
                 {%else%}
