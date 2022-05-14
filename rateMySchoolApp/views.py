@@ -168,6 +168,7 @@ def professor_rating(request):
     average_rating = ''
     lable = '' 
     labledRatings = ''
+    currentUserProfile = ''
     graph_data = []
     professorRatePosts = professor = ''
     professors = Professor.objects.all()
