@@ -62,7 +62,6 @@ Security Rating: {{averageSecurityRating}}
                 {%else%}
                 <a class="btn btn-outline-primary" style="font-size: 14px;" id="like-button-security" value="{{post.id}}"><span class="" id="security{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-solid fa-thumbs-up" id="securityupvoteicon{{post.id}}"></i></a>
                 {%endif%}
-                <!--<a class="btn btn-outline-primary" style="font-size: 12px;"  type="submit" href="{%url 'upvote' post.id%}">{{post.upvote.all.count}} upvote</a> -->
                 {%if currentUserProfile not in post.downvote.all%}
                 <a class="btn btn-outline-danger" style="font-size: 14px;" id="dislike-button-security" value="{{post.id}}"><span class="" id="{{post.id}}dislikesecurity">{{post.downvote.all.count}}</span>  <i id="securitydownvoteicon{{post.id}}" class="fa-regular fa-thumbs-down"></i></a>
                 {%else%}

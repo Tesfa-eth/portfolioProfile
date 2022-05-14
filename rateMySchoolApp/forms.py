@@ -1,7 +1,7 @@
 from cProfile import label
 from pyexpat import model
 from django import forms
-from .models import Post, Profile, Universities
+from .models import Post, PostProfFeedback, Profile, Universities, Professor
 from django.contrib.auth.models import User
 
 
@@ -57,3 +57,24 @@ class RemovePostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['removed']
+
+
+class ProfessorRateForm(forms.ModelForm):
+    class Meta:
+        model = PostProfFeedback
+        fields = ['ratedProf', 'postcontent', 'rate_stars']
+
+class EditProfessorRatePostForm(forms.ModelForm):
+    class Meta:
+        model = PostProfFeedback
+        fields = ['postcontent', 'rate_stars']
+
+class RemoveProfPostForm(forms.ModelForm):
+    class Meta:
+        model = PostProfFeedback
+        fields = ['removed']
+
+class ReportProfPostForm(forms.ModelForm):
+    class Meta:
+        model = PostProfFeedback
+        fields = ['reported']

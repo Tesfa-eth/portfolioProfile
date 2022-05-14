@@ -87,7 +87,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rateAcademia.wsgi.application'
 
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4' # crispy form styling
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 

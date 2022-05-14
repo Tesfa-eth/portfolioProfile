@@ -8,12 +8,8 @@
   {% elif user.is_authenticated%}
     <h1>Rate Academia</h1>
     <p>Welcome {{ user.username }}, who would you like to rate today?</p>
-    
-      <form method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input class="btn btn-success btn-block mt-2 mb-3" type="submit" value="Submit">
-      </form>
+    {%include 'rateMySchool/rateForms.html'%}
+      
   {% else %}
     <!-- GitHub button starts here -->
     <h1 style="text-align: center; padding-top: 5%;">Rate Academia</h1>

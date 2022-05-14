@@ -1,7 +1,5 @@
-{%if averageAcademicRating%}
-Academic Rating: {{averageAcademicRating}}
-{%for post in universityAcademicRatePosts%}
-          {%if not post.raterUser.profile.blocked and not post.removed%}
+{%for post in professorRatePosts%}
+         <!-- {%if not post.raterUser.profile.blocked and not post.removed%} -->
           <div class="border p-3 mt-3 mb-2 shadow" style="background-color:#9ea4e0;">
                     
             <div class="row pt-2 mb-2">
@@ -13,7 +11,7 @@ Academic Rating: {{averageAcademicRating}}
                     </div> <b style="color: #E5E4E2;">badge points: {{post.raterUser.profile.bagdeValue}}</b>
                 {% if user.is_authenticated %}
                     {%if post.raterUser.id == user.id%}
-                    <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
+                    <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updateprofpost' post.id%}"> Edit</a>
                     {%endif%}
                 {%endif%}  
                 <br> 
@@ -26,7 +24,7 @@ Academic Rating: {{averageAcademicRating}}
               
               <div class="col-md-5">
                 <!--if else for number of stars goes here-->
-                <b style="color: #333B84;">Rating:</b> 
+                <b style="color: #333B84;">Rating: </b> 
                 
                 <!--star ratings-->
                 {%if post.rate_stars == 1%}
@@ -58,29 +56,25 @@ Academic Rating: {{averageAcademicRating}}
               <div class="col-md-6">
                 <!--one is button and the other is int-->
                 {%if currentUserProfile not in post.upvote.all%}
-                <a class="btn btn-outline-primary" style="font-size: 14px;" id="like-button-academic" value="{{post.id}}"><span class="" id="academic{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-regular fa-thumbs-up" id="academicupvoteicon{{post.id}}"></i></a>
+                <a class="btn btn-outline-primary" style="font-size: 14px;" id="prof-like-button" value="{{post.id}}"><span class="" id="{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-regular fa-thumbs-up" id="upvoteicon{{post.id}}"></i></a>
                 {%else%}
-                <a class="btn btn-outline-primary" style="font-size: 14px;" id="like-button-academic" value="{{post.id}}"><span class="" id="academic{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-solid fa-thumbs-up" id="academicupvoteicon{{post.id}}"></i></a>
+                <a class="btn btn-outline-primary" style="font-size: 14px;" id="prof-like-button" value="{{post.id}}"><span class="" id="{{post.id}}">{{post.upvote.all.count}}</span>  <i class="fa-solid fa-thumbs-up" id="upvoteicon{{post.id}}"></i></a>
                 {%endif%}
-
                 {%if currentUserProfile not in post.downvote.all%}
-                <a class="btn btn-outline-danger" style="font-size: 14px;" id="dislike-button-academic" value="{{post.id}}"><span class="" id="{{post.id}}dislikeacademic">{{post.downvote.all.count}}</span>  <i id="academicdownvoteicon{{post.id}}" class="fa-regular fa-thumbs-down"></i></a>
+                <a class="btn btn-outline-danger" style="font-size: 14px;" id="prof-dislike-button" value="{{post.id}}"><span class="" id="{{post.id}}dislike">{{post.downvote.all.count}}</span>  <i id="downvoteicon{{post.id}}" class="fa-regular fa-thumbs-down"></i></a>
                 {%else%}
-                <a class="btn btn-outline-danger" style="font-size: 14px;" id="dislike-button-academic" value="{{post.id}}"><span class="" id="{{post.id}}dislikeacademic">{{post.downvote.all.count}}</span>  <i id="academicdownvoteicon{{post.id}}" class="fa-solid fa-thumbs-down"></i></a>
+                <a class="btn btn-outline-danger" style="font-size: 14px;" id="prof-dislike-button" value="{{post.id}}"><span class="" id="{{post.id}}dislike">{{post.downvote.all.count}}</span>  <i id="downvoteicon{{post.id}}" class="fa-solid fa-thumbs-down"></i></a>
                 {%endif%}
-
-
+                
+               
                 {%if currentUserProfile not in post.postreportedUsers.all%}
-                <a class="btn btn-outline-dark" style="font-size: 12px;" href="{%url 'reportconfirmation' post.id%}">Report</a>
+                <a class="btn btn-outline-dark" style="font-size: 12px;" href="{%url 'reportprofconfirmation' post.id%}">Report</a>
                 {%else%}
-                <a class="btn btn-dark" style="font-size: 12px;" href="{%url 'reportconfirmation' post.id%}">Reported</a>
+                <a class="btn btn-dark" style="font-size: 12px;" href="{%url 'reportprofconfirmation' post.id%}">Reported</a>
                 {%endif%} 
               </div>
             </div>
 
           </div>
-          {%endif%}
+          <!--{%endif%}-->
         {%endfor%}
-      {%else%}
-        {% include "rateMySchool/noRatings.html" %}
-      {%endif%}

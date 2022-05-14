@@ -1,0 +1,19 @@
+<!--contains js code for search recommendation and read more/less on the collegeRatings section-->
+<script>
+    $(function () {
+        var availableTags = [
+        {% for prof in professors %}
+            "{{prof.name}}",
+        {% endfor %}
+        ];
+          $("#prof_search").autocomplete({
+              source: availableTags,
+              minLength: 1
+          });
+      } );
+
+$(".show-hide-btn").click(function() {
+        $("#half").toggle();
+        $("#full").toggle();
+      })
+  </script>

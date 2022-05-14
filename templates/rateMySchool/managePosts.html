@@ -26,10 +26,15 @@
         <th>DownVotes</th>
     
     </tr>
-{%for post in posts%}
+{%for post in combinedposts%}
         <tr>
             <th><a href="{%url 'manageuser' post.raterUser.id%}"> {{post.raterUser}}</a></th>
-            <th><a href="{%url 'postdetail' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
+            {%if post.ratedProf%}
+                <th><a href="{%url 'postprofdetail' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
+            {%endif%}
+            {%if post.ratedBody%}
+                <th><a href="{%url 'postdetail' post.id%}">{{post.postcontent|safe|linebreaks|truncatewords:5}}</a></th>
+            {%endif%}
             <th>{{post.postreportedUsers.all.count}}</th>
             <th>{{post.profanity_prob}}%</th>
             <th>{{post.upvote.all.count}}</th>
