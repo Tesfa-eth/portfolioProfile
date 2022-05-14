@@ -20,11 +20,16 @@
       <h3 style="color: #333B84; font-weight: bold;">
       {{professor.name}}
       </h3>
-      <div class="half-content" id="half" style="text-align:justify;">{{professor.bio}} </div>
+      <div class="half-content" id="half" style="text-align:justify;">
+        <b>Currently at: {{professor.currentUniversity}} </b>
+        <div>{{professor.bio}} </div>
+      </div>
     </div>
       <div class="col-md-6">
         {%if professor.name%}
-        <h4>Overall ratings (3.6)</h4>
+        <h4>Overall ratings ({{average_rating}})</h4>
+        <canvas id="myChartsProf" width="200" height="150"></canvas>
+        {%include 'rateMySchool/chartjsProf.html'%} <!--Javascript Code for the chart-->
         {%endif%}
       </div>
   </div>

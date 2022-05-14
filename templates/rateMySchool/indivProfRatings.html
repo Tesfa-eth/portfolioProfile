@@ -11,7 +11,7 @@
                     </div> <b style="color: #E5E4E2;">badge points: {{post.raterUser.profile.bagdeValue}}</b>
                 {% if user.is_authenticated %}
                     {%if post.raterUser.id == user.id%}
-                    <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
+                    <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updateprofpost' post.id%}"> Edit</a>
                     {%endif%}
                 {%endif%}  
                 <br> 
@@ -68,9 +68,9 @@
                 
                
                 {%if currentUserProfile not in post.postreportedUsers.all%}
-                <a class="btn btn-outline-dark" style="font-size: 12px;" href="{%url 'reportconfirmation' post.id%}">Report</a>
+                <a class="btn btn-outline-dark" style="font-size: 12px;" href="{%url 'reportprofconfirmation' post.id%}">Report</a>
                 {%else%}
-                <a class="btn btn-dark" style="font-size: 12px;" href="{%url 'reportconfirmation' post.id%}">Reported</a>
+                <a class="btn btn-dark" style="font-size: 12px;" href="{%url 'reportprofconfirmation' post.id%}">Reported</a>
                 {%endif%} 
               </div>
             </div>

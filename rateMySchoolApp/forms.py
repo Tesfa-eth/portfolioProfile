@@ -63,3 +63,18 @@ class ProfessorRateForm(forms.ModelForm):
     class Meta:
         model = PostProfFeedback
         fields = ['ratedProf', 'postcontent', 'rate_stars']
+
+class EditProfessorRatePostForm(forms.ModelForm):
+    class Meta:
+        model = PostProfFeedback
+        fields = ['postcontent', 'rate_stars']
+
+class RemoveProfPostForm(forms.ModelForm):
+    class Meta:
+        model = PostProfFeedback
+        fields = ['removed']
+
+class ReportProfPostForm(forms.ModelForm):
+    class Meta:
+        model = PostProfFeedback
+        fields = ['reported']

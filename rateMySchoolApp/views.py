@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import PostProfFeedback, Professor, Profile, Universities, Post
 from django.contrib.auth.models import User # used in forms
 from django.db.models import Count, Q
-from .forms import EditUserProfile, ReportPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm, RemovePostForm, ProfessorRateForm
+from .forms import EditUserProfile, RemoveProfPostForm, ReportPostForm, ReportProfPostForm, UniversityRateForm, EditUniversityRatePostForm, UserProfileManagementForm, RemovePostForm, ProfessorRateForm, EditProfessorRatePostForm
 import wikipediaapi
 import logging
 
@@ -165,6 +165,10 @@ def college_rating(request):
 
 def professor_rating(request):
     test = ''
+    average_rating = ''
+    lable = '' 
+    labledRatings = ''
+    graph_data = []
     professorRatePosts = professor = ''
     professors = Professor.objects.all()
     if request.user.is_authenticated:
@@ -174,13 +178,21 @@ def professor_rating(request):
         #test = searchedprof
         professor = Professor.objects.filter(name__icontains=searchedprof)[0]
         professorRatePosts = PostProfFeedback.objects.filter(ratedProf=professor).order_by('-rate_stars')
-
+        if len(professorRatePosts):
+            for post in professorRatePosts:
+                graph_data.append(post.rate_stars)
+            average_rating = Average(graph_data)
+            lable, labledRatings = matchRatings(graph_data)
     context = {
         'test': test,
         'professors': professors, # for search recommendation
         'professor': professor,
         'professorRatePosts': professorRatePosts,
         'currentUserProfile':currentUserProfile,
+        'average_rating':average_rating,
+        'lable': lable,
+        'graph_data': labledRatings,
+        'labledRatings': labledRatings,
     }
     return render(request, 'rateMySchool/professorRating.html', context)
 
@@ -252,9 +264,12 @@ def dashboard(request):
 @login_required
 def myRatings(request):
     """renders the user's ratings so far"""
-    userPosts = Post.objects.filter(raterUser=request.user).order_by('-date_last_edited')
+    userPosts = Post.objects.filter(raterUser=request.user).order_by('-date_created')
+    userProfPosts = PostProfFeedback.objects.filter(raterUser=request.user).order_by('-date_created')
+    combinedposts = combineposts(userPosts, userProfPosts)
     context={
-        'userPosts': userPosts
+        'userPosts': userPosts,
+        'combinedposts':combinedposts,
     }
     return render(request, 'rateMySchool/myratings.html', context)
 
@@ -283,6 +298,41 @@ def editProfile(request):
         'form': form,
     }
     return render(request, 'rateMySchool/editProfile.html', context)
+
+@login_required
+def updateprofpost(request, pk):
+    post = PostProfFeedback.objects.get(id=pk)
+    test = ''
+    if request.method == 'POST':
+        form = EditProfessorRatePostForm(request.POST, instance=post)
+        if form.is_valid:
+            obj = form.save(commit=False)
+            obj.edited = True
+            #print(profanityProb(obj.postcontent), "post content")
+            prob, prelable = profanityProb(obj.postcontent)
+            profanityResult = profanityLabler(prob, prelable)
+            obj.profanity_prob = round(prob*100, 4)
+            if profanityResult == 'report':
+                obj.auto_reported = True
+            elif profanityResult == 'reportAndremove':
+                obj.auto_reported = True
+                obj.removed = True
+                obj.save()
+                return redirect('/updateProfPost/' + str(pk) + '/')
+            obj.save() 
+            return redirect('/myratings/')
+    else:
+        form = EditProfessorRatePostForm(instance=post)
+    logging.debug("Edit button recieved")
+    print("Edit button recieved")
+    # if request.user.is_superuser:
+    #     test = True
+    context = {
+        'form': form,
+        'post': post,
+        'test': test,
+    }
+    return render(request, 'rateMySchool/updateProfPost.html', context)
 
 
 @login_required
@@ -320,6 +370,15 @@ def updatePost(request, pk):
     }
     return render(request, 'rateMySchool/updatePost.html', context)
 
+def combineposts(post1, post2):
+    combined = []
+    iterate = max(len(post1), len(post2))
+    for i in range(iterate):
+        if i < len(post1):
+            combined.append(post1[i])
+        if i < len(post2):
+            combined.append(post2[i])
+    return combined
 @login_required # restrict to admins only
 def managePosts(request):
     """WARNING: updates in the detail section change the the last modified date"""
@@ -327,11 +386,36 @@ def managePosts(request):
     # find reported, and sort by how many times each are reported.
     logic = Q(reported=True, auto_reported=True, _connector=Q.OR)
     posts = Post.objects.filter(logic).annotate(report_count=Count('postreportedUsers')).order_by('-report_count')
+    # use the same logic to get reported professor feedbacks
+    profposts = PostProfFeedback.objects.filter(logic).annotate(report_count=Count('postreportedUsers')).order_by('-report_count')
     
+    # combine the two posts
+    combinedposts = combineposts(posts, profposts)
     context = {
         'posts': posts,
+        'profposts': profposts,
+        'combinedposts': combinedposts,
     }
     return render(request, 'rateMySchool/managePosts.html', context)
+
+
+@login_required
+def postProfDetail(request, pk):
+    post = PostProfFeedback.objects.get(id=pk)
+    alreadyReportedUsers = post.postreportedUsers.all()
+    if request.method == 'POST':
+        form = RemoveProfPostForm(request.POST, instance=post)
+        if form.is_valid:
+            form.save()
+            return redirect('/postprofdetail/' + str(pk) + '/')
+    else:
+        form = RemoveProfPostForm(instance=post)
+    context = {
+        'post':post,
+        'alreadyReportedUsers': alreadyReportedUsers,
+        'form': form,
+    }
+    return render(request, 'rateMySchool/postProfDetail.html', context)
 
 @login_required
 def postDetail(request, pk):
@@ -369,6 +453,35 @@ def manageUserProfile(request, pk):
         'form': form,
     }
     return render(request, 'rateMySchool/manageUserProfile.html', context)
+
+@login_required
+def reportProfConfirmation(request, pk):
+    reportedPost = PostProfFeedback.objects.get(id=pk)
+    alreadyReportedUsers = reportedPost.postreportedUsers.all()
+    currentUserProfile = Profile.objects.filter(user=request.user)[0]
+    if request.method == 'POST':
+        # update the reported to true!
+        if currentUserProfile not in alreadyReportedUsers:
+            reportedPost.postreportedUsers.add(currentUserProfile)
+        else:
+            reportedPost.postreportedUsers.remove(currentUserProfile)
+        form = ReportProfPostForm(request.POST, instance=reportedPost)
+        if form.is_valid:
+            obj = form.save(commit=False)
+            if len(reportedPost.postreportedUsers.all()) > 0:
+                obj.reported = True
+            else:
+                obj.reported = False
+            obj.save()
+            return redirect('/professorrating/')
+    else:
+        form = ReportProfPostForm(instance=reportedPost)
+    context = {
+        'reportedPost': reportedPost,
+        'alreadyreportedUsers':alreadyReportedUsers,
+        'currentUserProfile': currentUserProfile,
+    }
+    return render(request, 'rateMySchool/reportProfConfirmation.html', context)
 
 @login_required
 def reportConfirmation(request, pk):
