@@ -88,15 +88,10 @@ def college_rating(request):
         if len(crude_data) != 0: # if the search succeeds
             # find posts related to university (formerly called query_post)
             universityPostRatings = Post.objects.filter(ratedBody=crude_data[0])
-            # debug
-            # print(crude_data[0])
-            # print(query_post, len(query_post), "query post")
-            # searched university (formerly called data)
             searchedUniversity = crude_data[0] # pick first
             summary = get_summary(searchedUniversity)
-            
             # later should be ordered by users badge (Gold, Silver, Platinium)
-            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-rate_stars')
+            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-raterUser__profile__bagdeValue')
             universityAcademicRatePosts = Post.objects.filter(ratedBody=searchedUniversity,post_type='Academic').order_by('-rate_stars')
             universitySocialRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Social').order_by('-rate_stars')
             universitySecurityRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Security').order_by('-rate_stars')
@@ -124,9 +119,6 @@ def college_rating(request):
             averageSecurityRating = Average(securityratings)
             
             for post in universityRatePosts:
-                # user_id = post.raterUser.id
-                # user_profile = Profile.objects.filter(user = user_id)
-                # test = user_profile, user_id
                 graph_data.append(post.rate_stars)
             
             average_rating = Average(graph_data)
