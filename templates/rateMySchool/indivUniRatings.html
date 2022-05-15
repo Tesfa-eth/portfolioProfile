@@ -8,7 +8,11 @@
                     {%if post.raterUser.profile.verified%}
                     <i class="fa-solid fa-circle-check"></i>
                     {%endif%}
-                    </div> <b style="color: #E5E4E2;">badge points: {{post.raterUser.profile.bagdeValue}}</b>
+                    {%if post.raterUser.profile.bagdeValue == 43 %}
+                    </div> <b style="color: #E5E4E2;"><i class="fa-brands fa-old-republic"></i></b>
+                    {%else%}
+                    </div> <b style="color: #E5E4E2;">No</b>
+                    {%endif%}
                 {% if user.is_authenticated %}
                     {%if post.raterUser.id == user.id%}
                     <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
