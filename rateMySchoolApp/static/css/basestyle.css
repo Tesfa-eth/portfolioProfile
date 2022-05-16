@@ -42,3 +42,15 @@ display: inline;
 .plat:hover > .onhoverplat{
 display: inline;
 }
+
+.maintitle {
+    margin: auto;
+    width: 55%;
+    padding: 10px;
+    margin-top: 5%;
+    color: #333B84;
+  }
+
+body{
+    background-color:rgb(195, 219, 235) ;
+}

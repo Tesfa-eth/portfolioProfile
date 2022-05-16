@@ -15,82 +15,16 @@
       <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet"
           type="text/css" />
       
-      <link rel="stylesheet"  href="templates/partials/basestyle.css" type="text/css" />  
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/basestyle.css' %}">
       <!--jQuery end-->
-      <style>
-          .ui-autocomplete .ui-menu-item{
-          font-style:italic;
-          color: red;
-          background-color: lightgrey;
-          }
-
-          .button {
-          background-color: white;
-          color: black;
-          border-radius: 5px;
-          border: 2px solid #4CAF50; /* Green */
-          }
-
-          .button:hover {
-          background-color: #4CAF50; /* Green */
-          color: white;
-          }
-
-          .half-content{
-          font-size: 14px /*smaller content size*/
-          }
-
-          .onhoververified{
-          display: none;
-          }
-          .verified{
-          display: inline;
-          }
-          .verified:hover .onhoververified{
-          display: inline;
-          color:white;
-          }
-
-          .onhoverplat{
-          display: none;
-          }
-
-          .plat{
-          display: inline;
-          }
-
-          .plat:hover > .onhoverplat{
-          display: inline;
-          }
-
-      </style>
   </head>
   <body>
     {%include 'partials/nav.html'%}
-  
-    
     <!-- Header image and text -->
-
     <!--First page 4,4,4 division-->
-    <div class="container-lg" style="position: absolute; left: 50%;top: 50%;transform: translate(-50%, -50%);">
-
-      <div class="row mt-5 pt-3">
-        <div class="col-md-4 mb-3">
-          {%block collegeRatings%}
-
-          {%endblock%}
-        </div>
-        <div class="col-md-4 mb-3">
-          {%block professorFeedbacks%}
-          {%endblock%}
-        </div>
-        <div class="col-md-4 mb-3">
-          {%block fieldOfStudy%}
-
-          {%endblock%}
-        </div>
-      </div>
-  </div>
+    {%block maintitle%}{%endblock%}
+    {%block homepage%} {%endblock%}
 
   <!--Tab panel start-->
   <!--Tab panel-->
@@ -122,7 +56,7 @@
         {%endblock%}
       </div>
     </div>
-</div>
+  </div>
 
       <!--Test block content-->
       {%block testrating%}

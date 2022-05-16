@@ -1,16 +1,23 @@
 {%extends 'partials/base.html'%}
-{%load static%}
 
-{%block collegeRatings%}
-
-<!--<button class="button">someone here</button>-->
-<a class="btn btn-primary btn-lg" href="{%url 'collegeRating'%}">College Rating</a>
-{%endblock%}
-
-{%block professorFeedbacks%}
-<a type="button" class="btn btn-primary btn-lg" href="{%url 'professorrating'%}">Professor Feedbacks</a>
-{%endblock%}
-
-{%block fieldOfStudy%}
-<button type="button" class="btn btn-primary btn-lg">Field of Study Recommendation</button>
+{%block maintitle%}<h1 class="maintitle">Welcome to Rate Academia!</h1>{%endblock%}
+{%block homepage%}
+<div class="maincontainer">
+    <div class="centered-element">
+        <div class="container">
+            <div class="row mt-5 pt-3">
+                <div class="col-md-2 mb-3">
+                </div>
+                <div class="col-md-4 mb-3">
+                <a class="btn btn-primary btn-lg" href="{%url 'collegeRating'%}">College Rating</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                <a type="button" class="btn btn-primary btn-lg" href="{%url 'professorrating'%}">Professor Feedbacks</a>
+                </div>
+                <div class="col-md-2 mb-3">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {%endblock%}
