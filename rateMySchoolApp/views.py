@@ -88,15 +88,10 @@ def college_rating(request):
         if len(crude_data) != 0: # if the search succeeds
             # find posts related to university (formerly called query_post)
             universityPostRatings = Post.objects.filter(ratedBody=crude_data[0])
-            # debug
-            # print(crude_data[0])
-            # print(query_post, len(query_post), "query post")
-            # searched university (formerly called data)
             searchedUniversity = crude_data[0] # pick first
             summary = get_summary(searchedUniversity)
-            
             # later should be ordered by users badge (Gold, Silver, Platinium)
-            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-rate_stars')
+            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-raterUser__profile__bagdeValue').order_by('-upvote').order_by('-downvote')
             universityAcademicRatePosts = Post.objects.filter(ratedBody=searchedUniversity,post_type='Academic').order_by('-rate_stars')
             universitySocialRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Social').order_by('-rate_stars')
             universitySecurityRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Security').order_by('-rate_stars')
@@ -124,9 +119,6 @@ def college_rating(request):
             averageSecurityRating = Average(securityratings)
             
             for post in universityRatePosts:
-                # user_id = post.raterUser.id
-                # user_profile = Profile.objects.filter(user = user_id)
-                # test = user_profile, user_id
                 graph_data.append(post.rate_stars)
             
             average_rating = Average(graph_data)
@@ -234,6 +226,8 @@ def dashboard(request):
             elif profanityResult == 'reportAndremove':
                 obj.auto_reported = True
                 obj.removed = True
+            userprofile.bagdeValue += 30
+            userprofile.save()
             obj.save() 
             return redirect('/dashboard')
             
@@ -249,6 +243,12 @@ def dashboard(request):
             elif profanityResult == 'reportAndremove':
                 obj.auto_reported = True
                 obj.removed = True
+            #obj.raterUser.profile.bagdeValue += 50
+            #print(obj.raterUser.profile.bagdeValue)
+            # find the raters profile
+            userprofile.bagdeValue += 50
+            userprofile.save()
+            # update the profile
             obj.save() 
             return redirect('/dashboard')
     else:
@@ -564,14 +564,27 @@ def like(request):
         alreadyDownvotedUsers = post.downvote.all()
         currentUserProfile = Profile.objects.filter(user=request.user)[0]
         
+        upvoteValue = 10
+        downvoteValue = 2
+
         if currentUserProfile not in alreadyUpvotedUsers:
             post.upvote.add(currentUserProfile)
             likecolor = 'white'
+            poster_profile = Profile.objects.filter(user=post.raterUser)[0]
+            poster_profile.bagdeValue += upvoteValue
+            poster_profile.save()
         if currentUserProfile in alreadyUpvotedUsers:
             post.upvote.remove(currentUserProfile)
+            poster_profile = Profile.objects.filter(user=post.raterUser)[0]
+            poster_profile.bagdeValue -= upvoteValue
+            poster_profile.save()
             likecolor = '#0275d8'
         if currentUserProfile in alreadyDownvotedUsers:
             post.downvote.remove(currentUserProfile)
+            poster_profile = Profile.objects.filter(user=post.raterUser)[0]
+            # Since it has already been downvoted, counter the downvote value 
+            poster_profile.bagdeValue += downvoteValue
+            poster_profile.save()
             likecolor = '#0275d8'
             downvotechanges = True
         
@@ -596,12 +609,25 @@ def dislike(request):
         alreadyDownvotedUsers = post.downvote.all()
         currentUserProfile = Profile.objects.filter(user=request.user)[0]
 
+        upvoteValue = 10
+        downvoteValue = 2
+
         if currentUserProfile not in alreadyDownvotedUsers:
             post.downvote.add(currentUserProfile)
+            poster_profile = Profile.objects.filter(user=post.raterUser)[0]
+            poster_profile.bagdeValue -= downvoteValue
+            poster_profile.save()
         if currentUserProfile in alreadyDownvotedUsers:
             post.downvote.remove(currentUserProfile)
+            poster_profile = Profile.objects.filter(user=post.raterUser)[0]
+            poster_profile.bagdeValue += downvoteValue
+            poster_profile.save()
         if currentUserProfile in alreadyUpvotedUsers:
             post.upvote.remove(currentUserProfile)
+            poster_profile = Profile.objects.filter(user=post.raterUser)[0]
+            # Since it has already been upvoted, remove the upvote value
+            poster_profile.bagdeValue -= upvoteValue
+            poster_profile.save()
             upvotechanges = True
 
         dislikecount = post.downvote.all().count()

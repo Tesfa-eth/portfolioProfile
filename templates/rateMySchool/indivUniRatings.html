@@ -1,23 +1,27 @@
 {%for post in posts%}
           {%if not post.raterUser.profile.blocked and not post.removed%}
           <div class="border p-3 mt-3 mb-2 shadow" style="background-color:#9ea4e0;">
-                    
             <div class="row pt-2 mb-2">
               <div class="col-md-7">
                 <div style="color: white;display:inline;font-weight:bold;"> {{post.raterUser}}
                     {%if post.raterUser.profile.verified%}
-                    <i class="fa-solid fa-circle-check"></i>
+                    <div class="verified"> <i title="verified" class="fa-solid fa-circle-check"></i> </div>
                     {%endif%}
-                    {%if post.raterUser.profile.bagdeValue == 43 %}
-                    </div> <b style="color: #E5E4E2;"><i class="fa-brands fa-old-republic"></i></b>
-                    {%else%}
-                    </div> <b style="color: #E5E4E2;">No</b>
+                    </div>
+                    {%if post.raterUser.profile.bagdeValue >= 200 and post.raterUser.profile.bagdeValue < 500 %}
+                      <b style="color: #E5E4E2;"><i style="color:#CD7F32;" title="silver member" class="fa-solid fa-user-graduate"></i></b>
+                    {%elif post.raterUser.profile.bagdeValue >= 500 and post.raterUser.profile.bagdeValue < 1000%}
+                      <b style="color: #E5E4E2;"><i style="color:gold;" title="gold member" class="fa-brands fa-old-republic"></i></b>
+                    {%elif post.raterUser.profile.bagdeValue >= 1000%}
+                      <div class="plat"><b style="color: #E5E4E2;"><i title="platinium member" style="color: platinium;" class="fa-brands fa-ethereum"></i></b></div>
                     {%endif%}
                 {% if user.is_authenticated %}
                     {%if post.raterUser.id == user.id%}
                     <a class="btn btn-outline-primary" style="font-size: 12px;" href="{%url 'updatepost' post.id%}"> Edit Post</a>
                     {%endif%}
-                {%endif%}  
+                {%endif%} 
+                <div class="onhoververified">verified</div> 
+                <div class="onhoverplat">platinium</div> 
                 <br> 
                 {%if post.edited%}
                 <small>Last modified on: {{post.date_last_edited}} </small>
