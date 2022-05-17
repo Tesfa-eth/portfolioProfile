@@ -119,7 +119,7 @@ body{
   transform: scale(1.05) rotate(-1deg);
 }
       
-#indivpost{
+.indivposts{
   border-style: solid;
   border-width: thick;
   border-color: #b33866;

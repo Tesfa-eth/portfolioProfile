@@ -1,0 +1,26 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #762c2c;
+}
+
+body{
+    background-color:#af3d3d;
+}
+
+#myratingsbox{
+    border-style: solid;
+    border-color: antiquewhite;
+}
+
+
+  
