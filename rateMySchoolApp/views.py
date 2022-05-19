@@ -90,8 +90,8 @@ def college_rating(request):
             universityPostRatings = Post.objects.filter(ratedBody=crude_data[0])
             searchedUniversity = crude_data[0] # pick first
             summary = get_summary(searchedUniversity)
-            # later should be ordered by users badge (Gold, Silver, Platinium)
-            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-raterUser__profile__bagdeValue').order_by('-upvote').order_by('-downvote')
+            # bring well-performing post on the top. Also, consider the bage value order
+            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('upvote', 'downvote','-raterUser__profile__bagdeValue')
             universityAcademicRatePosts = Post.objects.filter(ratedBody=searchedUniversity,post_type='Academic').order_by('-rate_stars')
             universitySocialRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Social').order_by('-rate_stars')
             universitySecurityRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Security').order_by('-rate_stars')
