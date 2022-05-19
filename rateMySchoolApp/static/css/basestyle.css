@@ -51,7 +51,7 @@ display: inline;
   }
 
 body{
-    background-color:#800020;
+    background-color:rgba(54, 162, 235, 0.2);
 }
 
 .maintitlebox {
@@ -92,6 +92,10 @@ body{
   text-shadow: 2px 2px 8px #415738;
 }
 
+#a{
+  background-color:rgb(216, 123, 123);
+}
+
 
 
 /* CSS */
@@ -122,7 +126,8 @@ body{
 .indivposts{
   border-style: solid;
   border-width: thick;
-  border-color: #b33866;
+  border-color: rgba(54, 162, 235, 0.2);
+  background-color: rgba(54, 162, 235, 0.2);
 }
 
 #collegesearchform{

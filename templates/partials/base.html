@@ -34,23 +34,23 @@
 
   <!--College ratings page-->
   <div class="container">
-    <div class="row mt-3 pt-3">
-      <div class="col-md-2">
+    <div class="row">
+      <div class="col-md-1">
       </div>
-      <div class="col-md-8">
+      <div class="col-md-10 mainratingbox">
         {%block header_container%}
         {%endblock%}
         {%block search%}
         {%endblock%}
         <!--Nested container for rating description-->
-        {%block ratedBody%}{%endblock%}
+        <span>{%block ratedBody%}{%endblock%} </span>
         
 
         <!--Individual ratings-->
         {%block indivRating%}
         {%endblock%}
         
-      <div class="col-md-2">
+      <div class="col-md-1">
         {%block fieldOfStudy1%}
 
         {%endblock%}
