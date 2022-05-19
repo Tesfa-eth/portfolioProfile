@@ -14,7 +14,7 @@ tr:nth-child(even) {
 }
 
 body{
-    background-color:#af3d3d;
+    background-color:rgba(54, 162, 235, 0.2);
 }
 
 #myratingsbox{

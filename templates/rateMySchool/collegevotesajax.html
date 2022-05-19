@@ -15,31 +15,36 @@
         document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
         document.getElementById(pk).innerHTML = json['likecount']
         // also update the values over the social section
-        if(document.getElementById(pk+'dislikesocial')){
-          document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
-          document.getElementById('social'+pk).innerHTML = json['likecount']
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
         }
-        // also update the values over the security section
-        if(document.getElementById(pk+'dislikesecurity')){
-          document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
-          document.getElementById('security'+pk).innerHTML = json['likecount']
-        }
+        else{
+          if(document.getElementById(pk+'dislikesocial')){
+            document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+            document.getElementById('social'+pk).innerHTML = json['likecount']
+          }
+          // also update the values over the security section
+          if(document.getElementById(pk+'dislikesecurity')){
+            document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+            document.getElementById('security'+pk).innerHTML = json['likecount']
+          }
 
-        // also update the values over the academic section
-        if(document.getElementById(pk+'dislikeacademic')){
-          document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
-          document.getElementById('academic'+pk).innerHTML = json['likecount']
-        }
-        
-        $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['downvotechanges'] == true){
-          $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          // also update the values over the academic section
+          if(document.getElementById(pk+'dislikeacademic')){
+            document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+            document.getElementById('academic'+pk).innerHTML = json['likecount']
+          }
+          
+          $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['downvotechanges'] == true){
+            $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
         //console.log(json)
       },
       error: function(xhr, errmsg, err){
-
+        console.log('error!')
       }
     });
   })
@@ -58,30 +63,35 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        // also update the values over the social section
-        if(document.getElementById(pk+'dislikesocial')){
-          document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
-          document.getElementById('social'+pk).innerHTML = json['likecount']
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
         }
-        // also update the values over the security section
-        if(document.getElementById(pk+'dislikesecurity')){
-          document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
-          document.getElementById('security'+pk).innerHTML = json['likecount']
-        }
+        else{
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          // also update the values over the social section
+          if(document.getElementById(pk+'dislikesocial')){
+            document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+            document.getElementById('social'+pk).innerHTML = json['likecount']
+          }
+          // also update the values over the security section
+          if(document.getElementById(pk+'dislikesecurity')){
+            document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+            document.getElementById('security'+pk).innerHTML = json['likecount']
+          }
 
-        // also update the values over the academic section
-        if(document.getElementById(pk+'dislikeacademic')){
-          document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
-          document.getElementById('academic'+pk).innerHTML = json['likecount']
-        }
+          // also update the values over the academic section
+          if(document.getElementById(pk+'dislikeacademic')){
+            document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+            document.getElementById('academic'+pk).innerHTML = json['likecount']
+          }
 
-        $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
-        console.log("conditional");
-        if(json['upvotechanges'] == true){
-          console.log("changed");
-          $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          console.log("conditional");
+          if(json['upvotechanges'] == true){
+            console.log("changed");
+            $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
         console.log(json)
@@ -106,14 +116,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
-        document.getElementById('social'+pk).innerHTML = json['likecount']
-        // also update the one over the general section
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        $('#socialupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['downvotechanges'] == true){
-          $('#socialdownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+          document.getElementById('social'+pk).innerHTML = json['likecount']
+          // also update the one over the general section
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          $('#socialupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['downvotechanges'] == true){
+            $('#socialdownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         
       },
@@ -137,14 +152,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
-        document.getElementById('social'+pk).innerHTML = json['likecount']
-        // also update the one over the general section
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        $('#socialdownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['upvotechanges'] == true){
-          $('#socialupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislikesocial').innerHTML = json['dislikecount']
+          document.getElementById('social'+pk).innerHTML = json['likecount']
+          // also update the one over the general section
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          $('#socialdownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['upvotechanges'] == true){
+            $('#socialupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         
       },
@@ -170,14 +190,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
-        document.getElementById('security'+pk).innerHTML = json['likecount']
-        // also update the one over the general section
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        $('#securityupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['downvotechanges'] == true){
-          $('#securitydownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+          document.getElementById('security'+pk).innerHTML = json['likecount']
+          // also update the one over the general section
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          $('#securityupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['downvotechanges'] == true){
+            $('#securitydownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         
       },
@@ -201,14 +226,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
-        document.getElementById('security'+pk).innerHTML = json['likecount']
-        // also update the one over the general section
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        $('#securitydownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['upvotechanges'] == true){
-          $('#securityupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislikesecurity').innerHTML = json['dislikecount']
+          document.getElementById('security'+pk).innerHTML = json['likecount']
+          // also update the one over the general section
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          $('#securitydownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['upvotechanges'] == true){
+            $('#securityupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         
       },
@@ -233,14 +263,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
-        document.getElementById('academic'+pk).innerHTML = json['likecount']
-        // also update the one over the general section
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        $('#academicupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['downvotechanges'] == true){
-          $('#academicdownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+          document.getElementById('academic'+pk).innerHTML = json['likecount']
+          // also update the one over the general section
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          $('#academicupvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['downvotechanges'] == true){
+            $('#academicdownvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         
       },
@@ -264,14 +299,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
-        document.getElementById('academic'+pk).innerHTML = json['likecount']
-        // also update the one over the general section
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        $('#academicdownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['upvotechanges'] == true){
-          $('#academicupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislikeacademic').innerHTML = json['dislikecount']
+          document.getElementById('academic'+pk).innerHTML = json['likecount']
+          // also update the one over the general section
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          $('#academicdownvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['upvotechanges'] == true){
+            $('#academicupvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         
       },

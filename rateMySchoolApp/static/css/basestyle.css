@@ -98,12 +98,12 @@ body{
 
 
 
-/* CSS */
+/* CSS*/
 .btnmain {
   background-color: rgba(54, 162, 235, 0.2);
   border-radius: 100px;
-  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-  color: green;
+  box-shadow: rgba(44, 123, 187, 0.2) 0 -25px 18px -14px inset,rgba(44, 120, 187, 0.15) 0 1px 2px,rgba(44, 104, 187, 0.15) 0 2px 4px,rgba(44, 115, 187, 0.15) 0 4px 8px,rgba(27, 52, 77, 0.15) 0 8px 16px,rgba(29, 55, 81, 0.15) 0 16px 32px;
+  color: rgb(0, 76, 139);
   cursor: pointer;
   display: inline-block;
   font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
@@ -119,7 +119,7 @@ body{
 }
 
 .btnmain:hover {
-  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+  box-shadow: rgba(44, 96, 187, 0.35) 0 -25px 18px -14px inset,rgba(44, 92, 187, 0.25) 0 1px 2px,rgba(44, 104, 187, 0.25) 0 2px 4px,rgba(44, 65, 187, 0.25) 0 4px 8px,rgba(44, 89, 187, 0.25) 0 8px 16px,rgba(44, 68, 187, 0.25) 0 16px 32px;
   transform: scale(1.05) rotate(-1deg);
 }
       

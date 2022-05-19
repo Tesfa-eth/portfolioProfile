@@ -13,14 +13,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        // also update the values over the social section
-       
- 
-        $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
-        if(json['downvotechanges'] == true){
-          $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          // also update the values over the social section
+        
+  
+          $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid'); // toggle the upvote button
+          if(json['downvotechanges'] == true){
+            $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
         //console.log(json)
@@ -45,16 +50,19 @@
         action: 'post'
       },
       success: function(json){
-        document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
-        document.getElementById(pk).innerHTML = json['likecount']
-        // also update the values over the social section
-       
-
-        $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
-        console.log("conditional");
-        if(json['upvotechanges'] == true){
-          console.log("changed");
-          $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid');
+        if(json['authenticated'] === false){
+          alert('You need to sign-in first.')
+        }
+        else{
+          document.getElementById(pk+'dislike').innerHTML = json['dislikecount']
+          document.getElementById(pk).innerHTML = json['likecount']
+          // also update the values over the social section
+          $('#downvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          console.log("conditional");
+          if(json['upvotechanges'] == true){
+            console.log("changed");
+            $('#upvoteicon' + pk).toggleClass('fa-regular fa-solid');
+          }
         }
         //document.getElementById(pk).parentElement.style.backgroundColor = json['likecolor']
         console.log(json)
