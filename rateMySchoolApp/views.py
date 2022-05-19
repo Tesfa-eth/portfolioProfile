@@ -90,8 +90,8 @@ def college_rating(request):
             universityPostRatings = Post.objects.filter(ratedBody=crude_data[0])
             searchedUniversity = crude_data[0] # pick first
             summary = get_summary(searchedUniversity)
-            # later should be ordered by users badge (Gold, Silver, Platinium)
-            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('-raterUser__profile__bagdeValue').order_by('-upvote').order_by('-downvote')
+            # bring well-performing post on the top. Also, consider the bage value order
+            universityRatePosts = Post.objects.filter(ratedBody=searchedUniversity).order_by('upvote', 'downvote','-raterUser__profile__bagdeValue')
             universityAcademicRatePosts = Post.objects.filter(ratedBody=searchedUniversity,post_type='Academic').order_by('-rate_stars')
             universitySocialRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Social').order_by('-rate_stars')
             universitySecurityRatePosts = Post.objects.filter(ratedBody=searchedUniversity, post_type='Security').order_by('-rate_stars')
@@ -552,9 +552,9 @@ def reportConfirmation(request, pk):
 #     return redirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required
 def like(request):
     if request.POST.get('action') == 'post':
+        # print('gets here 2')
         result = ''
         downvotechanges = False # checks if downvote gets updated
         likecolor = '#0275d8' # bootstrap primary
@@ -562,6 +562,11 @@ def like(request):
         post = Post.objects.get(id=id)
         alreadyUpvotedUsers = post.upvote.all()
         alreadyDownvotedUsers = post.downvote.all()
+        if not request.user.is_authenticated:
+            dislikecount = post.downvote.all().count()
+            likecount = post.upvote.all().count()
+            return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'downvotechanges':False, 'likecolor': likecolor,'authenticated':False,})
         currentUserProfile = Profile.objects.filter(user=request.user)[0]
         
         upvoteValue = 10
@@ -593,11 +598,11 @@ def like(request):
         likecount = post.upvote.all().count()
         #print("dislike result here: ", result, "post content: ", post.postcontent)
 
+        print('gets here 3!!!')
         return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
-        'downvotechanges':downvotechanges, 'likecolor': likecolor,})
+        'downvotechanges':downvotechanges, 'likecolor': likecolor,'authenticated':True,})
 
 
-@login_required
 def dislike(request):
     if request.POST.get('action') == 'post':
         #result = ''
@@ -607,6 +612,12 @@ def dislike(request):
         post = Post.objects.get(id=id)
         alreadyUpvotedUsers = post.upvote.all()
         alreadyDownvotedUsers = post.downvote.all()
+        if not request.user.is_authenticated:
+            dislikecount = post.downvote.all().count()
+            likecount = post.upvote.all().count()
+            return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'downvotechanges':False, 'likecolor': likecolor,'authenticated':False,})
+
         currentUserProfile = Profile.objects.filter(user=request.user)[0]
 
         upvoteValue = 10
@@ -635,10 +646,10 @@ def dislike(request):
         #print("dislike result here: ", result, "post content: ", post.postcontent)
 
         return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
-        'upvotechanges':upvotechanges, 'likecolor': likecolor,})
+        'upvotechanges':upvotechanges, 'likecolor': likecolor,'authenticated': True})
 
 
-@login_required
+
 def proflike(request):
     if request.POST.get('action') == 'post':
         downvotechanges = False # checks if downvote gets updated
@@ -647,6 +658,11 @@ def proflike(request):
         post = PostProfFeedback.objects.get(id=id)
         alreadyUpvotedUsers = post.upvote.all()
         alreadyDownvotedUsers = post.downvote.all()
+        if not request.user.is_authenticated:
+            dislikecount = post.downvote.all().count()
+            likecount = post.upvote.all().count()
+            return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'upvotechanges':False, 'likecolor': likecolor,'authenticated': False})
         currentUserProfile = Profile.objects.filter(user=request.user)[0]
         
         if currentUserProfile not in alreadyUpvotedUsers:
@@ -666,10 +682,10 @@ def proflike(request):
         #print("dislike result here: ", result, "post content: ", post.postcontent)
 
         return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
-        'downvotechanges':downvotechanges, 'likecolor': likecolor,})
+        'downvotechanges':downvotechanges, 'likecolor': likecolor,'authenticated': False})
 
 
-@login_required
+
 def profdislike(request):
     if request.POST.get('action') == 'post':
         #result = ''
@@ -679,6 +695,11 @@ def profdislike(request):
         post = PostProfFeedback.objects.get(id=id)
         alreadyUpvotedUsers = post.upvote.all()
         alreadyDownvotedUsers = post.downvote.all()
+        if not request.user.is_authenticated:
+            dislikecount = post.downvote.all().count()
+            likecount = post.upvote.all().count()
+            return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
+        'upvotechanges':False, 'likecolor': likecolor,'authenticated': False})
         currentUserProfile = Profile.objects.filter(user=request.user)[0]
 
         if currentUserProfile not in alreadyDownvotedUsers:
@@ -694,4 +715,4 @@ def profdislike(request):
         #print("dislike result here: ", result, "post content: ", post.postcontent)
 
         return JsonResponse({'likecount': likecount,'dislikecount':dislikecount,
-        'upvotechanges':upvotechanges, 'likecolor': likecolor,})
+        'upvotechanges':upvotechanges, 'likecolor': likecolor,'authenticated': False})

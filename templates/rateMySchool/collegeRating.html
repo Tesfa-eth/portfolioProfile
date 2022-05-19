@@ -2,13 +2,13 @@
 
 {%block title%} College rating {%endblock%}
 {%block header_container%}
-    <h2 style="color: #333B84; text-align: center;">College rating {{test}}</h2>
+    <h1 style="color: #000000; text-align: center;font-size:5vw;">College rating {{test}}</h1>
 {%endblock%}
 
 {%block search%}
 
 <div>
-    <form class="d-flex" method="get">
+    <form class="d-flex" id="collegesearchform" method="get">
       {% csrf_token %}
       <input action="{% url 'collegeRating' %}"  name='collegeQuery' class="form-control me-2" id="uni_search" type="search" placeholder="Search the university here" aria-label="Search">
       <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -20,10 +20,12 @@
 
 
 {%block ratedBody%}
-<div class="container">
+{%if not queryUNI%}
+{%else%}
+<div class="container mt-3" style="background-color:#ffffff;">
   <div class="row pt-3">
     <div class="col-md-6">
-      <h3 style="color: #333B84; font-weight: bold;">
+      <h3 style="font-weight: bold;">
       
       {{queryUNI}}
       
@@ -60,6 +62,7 @@
     </div>
   </div>
 </div>
+{%endif%}
 {%endblock%}
 {%block tabPanel%}
 {%endblock%}

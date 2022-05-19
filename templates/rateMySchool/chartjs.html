@@ -1,5 +1,6 @@
 <script>
     const ctx = document.getElementById('myCharts').getContext('2d');
+    
     const graph = {
         type: 'bar',
         data: {
@@ -46,6 +47,7 @@
                 }
             }
         }}
+    ctx.fillStyle = 'lightGreen';
     const myChart = new Chart(ctx, graph);
     
     const coffeeSales = document.getElementById("coffeeSales");
